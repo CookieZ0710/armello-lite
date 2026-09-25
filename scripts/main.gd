@@ -89,6 +89,12 @@ func move_player(new_coordinates):
 	player_coordinates = new_coordinates
 	player.coordinates = new_coordinates
 	player.position = hex_tiles[new_coordinates].position
+	
+	var tile = hex_tiles[new_coordinates]
+	print("Moved onto new Tile")
+	print("Type: ",tile.get_tile_type_name())
+	print("Movement Cost: ",tile.movement_cost)
+	print("Health Change: ",tile.health_change)
 
 
 # check if tile can move

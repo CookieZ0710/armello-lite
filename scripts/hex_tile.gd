@@ -8,7 +8,9 @@ enum TileType {
 	SWAMP,
 	MOUNTAIN
 }
-var tile_type: TileType = TileType.GRASS
+var tile_type: TileType = TileType.GRASS	# our default tile type
+var movement_cost: int = 1
+var health_change: int = 0
 
 @export var radius: float = 40.0
 @export var tile_color: Color = Color(0.25, 0.55, 0.35)
@@ -48,9 +50,27 @@ func set_tile_type(type: TileType):
 	match tile_type:
 		TileType.GRASS:
 			tile_color = Color(0.25, 0.55, 0.35)
+			movement_cost = 1
+			health_change = 0
 		TileType.SWAMP:
 			tile_color = Color(0.45, 0.30, 0.20)
+			movement_cost = 1
+			health_change = -1
 		TileType.MOUNTAIN:
 			tile_color = Color(0.8, 0.8, 0.8)
+			movement_cost = 2
+			health_change = 0
 			
 	$Polygon2D.color = tile_color
+
+
+func get_tile_type_name() -> String:	# temporary can remove
+	match tile_type:
+		TileType.GRASS:
+			return "GRASS"
+		TileType.SWAMP:
+			return "SWAMP"
+		TileType.MOUNTAIN:
+			return "MOUNTAIN"
+	
+	return "UNKNOWN"
