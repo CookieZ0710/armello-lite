@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bgshnraoeska7"]
+
+[ext_resource type="Script" uid="uid://dpe0c3c3i0q8l" path="res://scripts/main.gd" id="1_elqb8"]
+
+[node name="Main" type="Node2D" unique_id=1295409125]
+script = ExtResource("1_elqb8")
+map_width = 8
+map_height = 6
