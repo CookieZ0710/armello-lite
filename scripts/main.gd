@@ -52,8 +52,10 @@ func generate_map():
 				hex.set_tile_type(HexTile.TileType.MOUNTAIN)
 			elif roll <= 90:
 				hex.set_tile_type(HexTile.TileType.SETTLEMENT)
+			elif roll <= 95:
+				hex.set_tile_type(HexTile.TileType.SETTLEMENT)
 			else:
-				hex.set_tile_type(HexTile.TileType.RUINS)
+				hex.set_tile_type(HexTile.TileType.CASTLE)
 			
 			add_child(hex)
 			hex_tiles[axial] = hex

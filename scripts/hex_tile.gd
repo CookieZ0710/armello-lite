@@ -10,7 +10,8 @@ enum TileType {
 	STONE,			# +1 health
 	MOUNTAIN,		# 2 ap
 	SETTLEMENT,		# 
-	RUINS			# 
+	RUINS,			# 
+	CASTLE			# middle of the map
 }
 var tile_type: TileType = TileType.GRASS	# our default tile type
 var movement_cost: int = 1
@@ -80,6 +81,10 @@ func set_tile_type(type: TileType):
 			tile_color = Color(0.57, 0.15, 0.8)
 			movement_cost = 2
 			health_change = 0
+		TileType.CASTLE:
+			tile_color = Color(0.15, 0.35, 1.0)
+			movement_cost = 3
+			health_change = 0
 			
 	$Polygon2D.color = tile_color
 
@@ -100,5 +105,7 @@ func get_tile_type_name() -> String:	# temporary can remove
 			return "SETTLEMENT"
 		TileType.RUINS:
 			return "RUINS"
+		TileType.CASTLE:
+			return "CASTLE"
 	
 	return "UNKNOWN"
