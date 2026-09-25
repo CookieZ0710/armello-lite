@@ -11,8 +11,11 @@ var player_coordinates = Vector2i(2, 2) # spawn point
 var hex_tiles = {}						# our map container
 
 func _ready() -> void:
+	randomize()
+	
 	generate_map()		# make hex tiles
 	center_map()		# check and move to mid of tiles
+	
 	player_coordinates = offset_to_axial(2, 2)
 	create_player()		# add player
 
@@ -36,11 +39,21 @@ func generate_map():
 			hex.coordinates = axial
 			hex.position = axial_to_pixel(axial, hex.radius)
 			
-			if col == 3 and row == 3:
+			var roll = randi_range(1,100)
+			if roll <= 40:
+				hex.set_tile_type(HexTile.TileType.GRASS)
+			elif roll <= 65:
+				hex.set_tile_type(HexTile.TileType.FOREST)
+			elif roll <= 70:
 				hex.set_tile_type(HexTile.TileType.SWAMP)
-
-			if col == 5 and row == 4:
+			elif roll <= 75:
+				hex.set_tile_type(HexTile.TileType.STONE)
+			elif roll <= 80:
 				hex.set_tile_type(HexTile.TileType.MOUNTAIN)
+			elif roll <= 90:
+				hex.set_tile_type(HexTile.TileType.SETTLEMENT)
+			else:
+				hex.set_tile_type(HexTile.TileType.RUINS)
 			
 			add_child(hex)
 			hex_tiles[axial] = hex
