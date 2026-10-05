@@ -39,23 +39,38 @@ func generate_map():
 			hex.coordinates = axial
 			hex.position = axial_to_pixel(axial, hex.radius)
 			
-			var roll = randi_range(1,100)
-			if roll <= 40:
-				hex.set_tile_type(HexTile.TileType.GRASS)
-			elif roll <= 65:
-				hex.set_tile_type(HexTile.TileType.FOREST)
-			elif roll <= 70:
-				hex.set_tile_type(HexTile.TileType.SWAMP)
-			elif roll <= 75:
-				hex.set_tile_type(HexTile.TileType.STONE)
-			elif roll <= 80:
-				hex.set_tile_type(HexTile.TileType.MOUNTAIN)
-			elif roll <= 90:
-				hex.set_tile_type(HexTile.TileType.SETTLEMENT)
-			elif roll <= 95:
-				hex.set_tile_type(HexTile.TileType.SETTLEMENT)
-			else:
+			if (col == 7 or col == 8) and (row == 3 or row == 4):
 				hex.set_tile_type(HexTile.TileType.CASTLE)
+			elif (col == 2 or col == 3) and (row == 1 or row == 2):
+				hex.set_tile_type(HexTile.TileType.FOREST)
+			elif (col == 2 or col == 3) and (row == 5 or row == 6):
+				hex.set_tile_type(HexTile.TileType.SWAMP)
+			elif (col == 7 or col == 8) and (row == 6 or row == 7):
+				hex.set_tile_type(HexTile.TileType.STONE)
+			elif (col == 7 or col == 8) and (row == 0 or row == 1):
+				hex.set_tile_type(HexTile.TileType.MOUNTAIN)
+			elif (col == 13 or col == 14) and (row == 1 or row == 2):
+				hex.set_tile_type(HexTile.TileType.SETTLEMENT)
+			elif (col == 13 or col == 14) and (row == 5 or row == 6):
+				hex.set_tile_type(HexTile.TileType.RUINS)
+			
+			#var roll = randi_range(1,100)
+			#if roll <= 40:
+				#hex.set_tile_type(HexTile.TileType.GRASS)
+			#elif roll <= 65:
+				#hex.set_tile_type(HexTile.TileType.FOREST)
+			#elif roll <= 70:
+				#hex.set_tile_type(HexTile.TileType.SWAMP)
+			#elif roll <= 75:
+				#hex.set_tile_type(HexTile.TileType.STONE)
+			#elif roll <= 80:
+				#hex.set_tile_type(HexTile.TileType.MOUNTAIN)
+			#elif roll <= 90:
+				#hex.set_tile_type(HexTile.TileType.SETTLEMENT)
+			#elif roll <= 95:
+				#hex.set_tile_type(HexTile.TileType.SETTLEMENT)
+			#else:
+				#hex.set_tile_type(HexTile.TileType.CASTLE)
 			
 			add_child(hex)
 			hex_tiles[axial] = hex

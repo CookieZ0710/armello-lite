@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="HexTileData" format=3 uid="uid://dy0j1udwa3733"]
+
+[ext_resource type="Script" uid="uid://f4r48xdc3vgm" path="res://scripts/data/tile_data.gd" id="1_ogb2w"]
+
+[resource]
+script = ExtResource("1_ogb2w")
+id = "grass"
+display_name = "grass_tile"
+tile_color = Color(0.4, 0.55, 0.15, 1)
+metadata/_custom_type_script = "uid://f4r48xdc3vgm"
