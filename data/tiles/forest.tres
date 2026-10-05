@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="HexTileData" format=3 uid="uid://byj6ce48cklif"]
+
+[ext_resource type="Script" uid="uid://f4r48xdc3vgm" path="res://scripts/data/tile_data.gd" id="1_a0kmr"]
+
+[resource]
+script = ExtResource("1_a0kmr")
+id = "forest"
+display_name = "forest_tile"
+night_stealth = true
+tile_color = Color(0.16470589, 0.7294118, 0.2, 1)
+metadata/_custom_type_script = "uid://f4r48xdc3vgm"

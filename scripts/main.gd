@@ -2,6 +2,14 @@ extends Node2D
 
 const PLAYER = preload("res://scenes/Player.tscn")
 const HEX_TILE = preload("res://scenes/HexTile.tscn")
+const GRASS_DATA = preload("res://data/tiles/grass.tres")
+const FOREST_DATA = preload("res://data/tiles/forest.tres")
+const SWAMP_DATA = preload("res://data/tiles/swamp.tres")
+const STONE_DATA = preload("res://data/tiles/stone.tres")
+const MOUNTAIN_DATA = preload("res://data/tiles/mountain.tres")
+const SETTLEMENT_DATA = preload("res://data/tiles/settlement.tres")
+const RUINS_DATA = preload("res://data/tiles/ruins.tres")
+const CASTLE_DATA = preload("res://data/tiles/castle.tres")
 
 @export var map_width: int = 24
 @export var map_height: int = 5
@@ -40,19 +48,19 @@ func generate_map():
 			hex.position = axial_to_pixel(axial, hex.radius)
 			
 			if (col == 7 or col == 8) and (row == 3 or row == 4):
-				hex.set_tile_type(HexTile.TileType.CASTLE)
+				hex.set_tile_data(CASTLE_DATA)
 			elif (col == 2 or col == 3) and (row == 1 or row == 2):
-				hex.set_tile_type(HexTile.TileType.FOREST)
+				hex.set_tile_data(FOREST_DATA)
 			elif (col == 2 or col == 3) and (row == 5 or row == 6):
-				hex.set_tile_type(HexTile.TileType.SWAMP)
+				hex.set_tile_data(SWAMP_DATA)
 			elif (col == 7 or col == 8) and (row == 6 or row == 7):
-				hex.set_tile_type(HexTile.TileType.STONE)
+				hex.set_tile_data(STONE_DATA)
 			elif (col == 7 or col == 8) and (row == 0 or row == 1):
-				hex.set_tile_type(HexTile.TileType.MOUNTAIN)
+				hex.set_tile_data(MOUNTAIN_DATA)
 			elif (col == 13 or col == 14) and (row == 1 or row == 2):
-				hex.set_tile_type(HexTile.TileType.SETTLEMENT)
+				hex.set_tile_data(SETTLEMENT_DATA)
 			elif (col == 13 or col == 14) and (row == 5 or row == 6):
-				hex.set_tile_type(HexTile.TileType.RUINS)
+				hex.set_tile_data(RUINS_DATA)
 			
 			#var roll = randi_range(1,100)
 			#if roll <= 40:

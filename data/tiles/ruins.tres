@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="HexTileData" format=3 uid="uid://dhqyihrsesews"]
+
+[ext_resource type="Script" uid="uid://f4r48xdc3vgm" path="res://scripts/data/tile_data.gd" id="1_wlvhr"]
+
+[resource]
+script = ExtResource("1_wlvhr")
+id = "ruins"
+display_name = "ruin_tile"
+tile_color = Color(0.8776981, 0.0007123351, 0.89392865, 1)
+metadata/_custom_type_script = "uid://f4r48xdc3vgm"
