@@ -4,5 +4,3 @@
 
 [node name="Main" type="Node2D" unique_id=1295409125]
 script = ExtResource("1_elqb8")
-map_width = 16
-map_height = 8

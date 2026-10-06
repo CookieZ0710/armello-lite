@@ -11,7 +11,7 @@ func _ready():
 	var points = PackedVector2Array()
 	
 	for i in range(6):
-		var angle = deg_to_rad(60 * i)
+		var angle = deg_to_rad(60 * i + 30)
 		var point = Vector2(
 			cos(angle),
 			sin(angle)

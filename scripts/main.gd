@@ -11,8 +11,8 @@ const SETTLEMENT_DATA = preload("res://data/tiles/settlement.tres")
 const RUINS_DATA = preload("res://data/tiles/ruins.tres")
 const CASTLE_DATA = preload("res://data/tiles/castle.tres")
 
-@export var map_width: int = 24
-@export var map_height: int = 8
+@export var map_width: int = 8
+@export var map_height: int = 9
 
 var player								# player
 var player_coordinates = Vector2i(2, 2) # spawn point
@@ -29,37 +29,40 @@ func _ready() -> void:
 
 # take normal coord into logical use
 func offset_to_axial(col: int, row: int) -> Vector2i:
-	return Vector2i(col, row - (col >> 1))
+	var q = col - (row - (row & 1)) / 2
+	var r = row
+	return Vector2i(q, r)
 
 # logical coord into visual coord
 func axial_to_pixel(axial: Vector2i, radius: float) -> Vector2:
 	return Vector2(
-		radius * 1.5 * axial.x,
-		radius * sqrt(3) * (axial.y + axial.x / 2.0)
+		radius * sqrt(3) * (axial.x + axial.y / 2.0),
+		radius * 1.5 * axial.y
 	)
 
 # makes the hex tiles based on the map size
 func generate_map():
-	for col in range(map_width):
-		for row in range(map_height):
+	for row in range(map_height):
+		var row_width = map_width if row % 2 == 0 else map_width - 1
+		for col in range(row_width):
 			var hex = HEX_TILE.instantiate()
 			var axial = offset_to_axial(col, row)
 			hex.coordinates = axial
 			hex.position = axial_to_pixel(axial, hex.radius)
 			
-			if (col == 7 or col == 8) and (row == 3 or row == 4):
+			if (col == 4 and row == 4) or (col == 3 and ((row == 3)or(row == 4)or(row == 5))):
 				hex.set_tile_data(CASTLE_DATA)
-			elif (col == 2 or col == 3) and (row == 1 or row == 2):
+			elif (col == 5 and row == 1) or (col == 6 and row == 2):
 				hex.set_tile_data(FOREST_DATA)
-			elif (col == 2 or col == 3) and (row == 5 or row == 6):
+			elif (col == 1 and row == 6) or (col == 1 and row == 7):
 				hex.set_tile_data(SWAMP_DATA)
-			elif (col == 7 or col == 8) and (row == 6 or row == 7):
+			elif (col == 1 and row == 4):
 				hex.set_tile_data(STONE_DATA)
-			elif (col == 7 or col == 8) and (row == 0 or row == 1):
+			elif (col == 6 and row == 6) or (col == 5 and row == 7):
 				hex.set_tile_data(MOUNTAIN_DATA)
-			elif (col == 13 or col == 14) and (row == 1 or row == 2):
+			elif (col == 1 and row == 1) or (col == 1 and row == 2):
 				hex.set_tile_data(SETTLEMENT_DATA)
-			elif (col == 13 or col == 14) and (row == 5 or row == 6):
+			elif (col == 6 and row == 4):
 				hex.set_tile_data(RUINS_DATA)
 			else:
 				hex.set_tile_data(GRASS_DATA)
@@ -136,6 +139,7 @@ func move_player(new_coordinates):
 	print("Type: ",tile.tile_data.display_name)
 	print("Movement Cost: ",tile.tile_data.movement_cost)
 	print("Health Change: ",tile.tile_data.health_change)
+	print("Coordinates: ",new_coordinates)
 
 
 # check if tile can move
