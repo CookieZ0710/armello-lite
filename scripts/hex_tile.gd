@@ -27,6 +27,8 @@ func _ready():
 	
 	$Line2D.points = border_points
 	$Line2D.width = 2.0
+	
+	apply_tile_data()
 
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:

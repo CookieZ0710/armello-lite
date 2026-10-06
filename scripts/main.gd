@@ -12,7 +12,7 @@ const RUINS_DATA = preload("res://data/tiles/ruins.tres")
 const CASTLE_DATA = preload("res://data/tiles/castle.tres")
 
 @export var map_width: int = 24
-@export var map_height: int = 5
+@export var map_height: int = 8
 
 var player								# player
 var player_coordinates = Vector2i(2, 2) # spawn point
@@ -61,6 +61,8 @@ func generate_map():
 				hex.set_tile_data(SETTLEMENT_DATA)
 			elif (col == 13 or col == 14) and (row == 5 or row == 6):
 				hex.set_tile_data(RUINS_DATA)
+			else:
+				hex.set_tile_data(GRASS_DATA)
 			
 			#var roll = randi_range(1,100)
 			#if roll <= 40:
@@ -130,9 +132,10 @@ func move_player(new_coordinates):
 	
 	var tile = hex_tiles[new_coordinates]
 	print("Moved onto new Tile")
-	print("Type: ",tile.get_tile_type_name())
-	print("Movement Cost: ",tile.movement_cost)
-	print("Health Change: ",tile.health_change)
+	print("ID: ",tile.tile_data.id)
+	print("Type: ",tile.tile_data.display_name)
+	print("Movement Cost: ",tile.tile_data.movement_cost)
+	print("Health Change: ",tile.tile_data.health_change)
 
 
 # check if tile can move
