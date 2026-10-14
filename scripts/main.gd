@@ -1,5 +1,6 @@
 extends Node2D
 
+const DEFAULT_HERO = preload("res://data/characters/default_hero.tres")
 const PLAYER = preload("res://scenes/Player.tscn")
 const HEX_TILE = preload("res://scenes/HexTile.tscn")
 const GRASS_DATA = preload("res://data/tiles/grass.tres")
@@ -123,23 +124,32 @@ func get_neighbors(coordinates: Vector2i) -> Array[Vector2i]:
 
 func create_player(): 
 	player = PLAYER.instantiate()
+	player.character_data = DEFAULT_HERO
 	player.coordinates = player_coordinates
+	
 	add_child(player)
 	player.position = hex_tiles[player_coordinates].position
 
 
 func move_player(new_coordinates):
+	var tile = hex_tiles[new_coordinates]
+	var movement_cost = tile.tile_data.movement_cost
+	
+	if not player.spend_ap(movement_cost):
+		return
+		
 	player_coordinates = new_coordinates
 	player.coordinates = new_coordinates
 	player.position = hex_tiles[new_coordinates].position
-	
-	var tile = hex_tiles[new_coordinates]
+		
 	print("Moved onto new Tile")
-	print("ID: ",tile.tile_data.id)
 	print("Type: ",tile.tile_data.display_name)
 	print("Movement Cost: ",tile.tile_data.movement_cost)
 	print("Health Change: ",tile.tile_data.health_change)
 	print("Coordinates: ",new_coordinates)
+	
+	player.change_health(tile.tile_data.health_change)
+	
 
 
 # check if tile can move
