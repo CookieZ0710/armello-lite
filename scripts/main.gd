@@ -1,7 +1,11 @@
 extends Node2D
 
-const DEFAULT_HERO = preload("res://data/characters/default_hero.tres")
 const PLAYER = preload("res://scenes/Player.tscn")
+const DEFAULT_HERO = preload("res://data/characters/default_hero.tres")
+
+const NPC = preload("res://scenes/NPC.tscn")
+const BANE_DATA = preload("res://data/characters/placeholder_bane.tres")
+
 const HEX_TILE = preload("res://scenes/HexTile.tscn")
 const GRASS_DATA = preload("res://data/tiles/grass.tres")
 const FOREST_DATA = preload("res://data/tiles/forest.tres")
@@ -18,6 +22,7 @@ const CASTLE_DATA = preload("res://data/tiles/castle.tres")
 var player								# player
 var player_coordinates = Vector2i(2, 2) # spawn point
 var hex_tiles = {}						# our map container
+var is_night: bool = false					
 
 func _ready() -> void:
 	randomize()
@@ -25,8 +30,13 @@ func _ready() -> void:
 	generate_map()		# make hex tiles
 	center_map()		# check and move to mid of tiles
 	
+	$CanvasLayer/EndTurnButton.pressed.connect(
+		_on_end_turn_button_pressed
+	)
+	
 	player_coordinates = offset_to_axial(2, 2)
 	create_player()		# add player
+	spawn_bane()
 
 # take normal coord into logical use
 func offset_to_axial(col: int, row: int) -> Vector2i:
@@ -130,6 +140,22 @@ func create_player():
 	add_child(player)
 	player.position = hex_tiles[player_coordinates].position
 
+func spawn_bane() -> void:
+	var bane = NPC.instantiate()
+	bane.character_data = BANE_DATA
+
+	# Temporary spawn location, using the same
+	# offset coordinates as map generation.
+	var spawn_coordinates = offset_to_axial(4, 3)
+
+	if not hex_tiles.has(spawn_coordinates):
+		push_warning("Bane spawn tile does not exist!")
+		bane.free()
+		return
+
+	add_child(bane)
+	bane.position = hex_tiles[spawn_coordinates].position
+
 
 func move_player(new_coordinates):
 	var tile = hex_tiles[new_coordinates]
@@ -158,3 +184,14 @@ func _on_tile_clicked(clicked_coordinates):
 	
 	if clicked_coordinates in neighbors:
 		move_player(clicked_coordinates)
+
+func _on_end_turn_button_pressed() -> void:
+	player.reset_ap()
+	
+	is_night = not is_night
+	$CanvasLayer/NightOverlay.visible = is_night
+	
+	if is_night:
+		print("Night has fallen!")
+	else:
+		print("Day has begun!")

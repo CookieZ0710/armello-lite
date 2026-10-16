@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bdsy34ryxkioh"]
+
+[ext_resource type="Script" uid="uid://ba1tkf7f73ome" path="res://scripts/entities/npc.gd" id="1_mhefn"]
+
+[node name="NPC" type="Area2D" unique_id=917090917]
+script = ExtResource("1_mhefn")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=924562155]

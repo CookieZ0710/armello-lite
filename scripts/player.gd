@@ -7,7 +7,8 @@ var coordinates = Vector2i.ZERO
 #Runtime stats
 var current_health: int 
 var max_health: int
-var current_ap: int
+var max_ap: int = 30
+var current_ap: int = 0
 
 var gold: int = 0
 var mana: int = 0
@@ -20,10 +21,10 @@ func _ready() -> void:
 	
 	for i in range(20):
 		var angle = deg_to_rad(i * 360.0 / 20.0)
-		
 		points.append(Vector2(cos(angle), sin (angle)) * radius)
 	
 	$Polygon2D.polygon = points
+	
 	initialise_character()
 	
 
@@ -34,7 +35,7 @@ func initialise_character() -> void:
 		
 	max_health = character_data.body
 	current_health = max_health
-	current_ap = 30
+	current_ap = max_ap
 	
 	print("=== Character Initialised ===")
 	print("Name: ", character_data.character_name)
@@ -63,4 +64,8 @@ func spend_ap(amount: int) -> bool:
 	current_ap -= amount
 	print("AP remaining: ", current_ap)
 	return true
+
+func reset_ap() -> void:
+	current_ap = max_ap
+	print("reset AP lmao. ", current_ap)
 		
