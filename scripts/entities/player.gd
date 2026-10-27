@@ -7,7 +7,7 @@ var coordinates = Vector2i.ZERO
 #Runtime stats
 var current_health: int 
 var max_health: int
-var max_ap: int = 30
+var max_ap: int = 3
 var current_ap: int = 0
 
 var gold: int = 0

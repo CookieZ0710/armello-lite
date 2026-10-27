@@ -22,7 +22,12 @@ const CASTLE_DATA = preload("res://data/tiles/castle.tres")
 var player								# player
 var player_coordinates = Vector2i(2, 2) # spawn point
 var hex_tiles = {}						# our map container
-var is_night: bool = false					
+var bane
+
+var actors: Array[Node] = [player, bane]
+
+@onready var turn_manager = $TurnManager
+		
 
 func _ready() -> void:
 	randomize()
@@ -37,6 +42,11 @@ func _ready() -> void:
 	player_coordinates = offset_to_axial(2, 2)
 	create_player()		# add player
 	spawn_bane()
+	
+	turn_manager.turn_changed.connect(_on_turn_changed)
+	turn_manager.phase_changed.connect(_on_phase_changed)
+	turn_manager.setup(actors)
+
 
 # take normal coord into logical use
 func offset_to_axial(col: int, row: int) -> Vector2i:
@@ -141,7 +151,7 @@ func create_player():
 	player.position = hex_tiles[player_coordinates].position
 
 func spawn_bane() -> void:
-	var bane = NPC.instantiate()
+	bane = NPC.instantiate()
 	bane.character_data = BANE_DATA
 
 	# Temporary spawn location, using the same
@@ -175,23 +185,44 @@ func move_player(new_coordinates):
 	print("Coordinates: ",new_coordinates)
 	
 	player.change_health(tile.tile_data.health_change)
-	
+
+#func setup_turn_queue() -> void:
+	#turn_queue.clear()
+	#
+	#if player != null:
+		#turn_queue.append(player)
+	#if bane != null:
+		#turn_queue.append(bane)
+		#
+	#current_turn_index = 0
+	#start_current_turn()
+
+func _on_turn_changed(actor: Node) -> void:
+	if actor == player:
+		print("=== Player's Turn ===")
+	elif actor == bane:
+		print("=== Bane's Turn ===")
+		print("Bane cant do shit so pass")
 
 
 # check if tile can move
 func _on_tile_clicked(clicked_coordinates):
+	if turn_manager.current_actor != player:
+		print("not ur turn yet bitch")
+		return
+	
 	var neighbors = get_neighbors(player_coordinates)
 	
 	if clicked_coordinates in neighbors:
 		move_player(clicked_coordinates)
 
 func _on_end_turn_button_pressed() -> void:
-	player.reset_ap()
+	turn_manager.end_turn()
+
+func _on_phase_changed(night: bool) -> void:
+	$CanvasLayer/NightOverlay.visible = night
 	
-	is_night = not is_night
-	$CanvasLayer/NightOverlay.visible = is_night
-	
-	if is_night:
+	if night:
 		print("Night has fallen!")
 	else:
 		print("Day has begun!")
