@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CharacterData" format=3 uid="uid://ekhyeiqg0c4k"]
+
+[ext_resource type="Script" uid="uid://c06efxbhxb5nc" path="res://scripts/data/character_data.gd" id="1_1vg3m"]
+
+[resource]
+script = ExtResource("1_1vg3m")
+character_name = "Royal Guard"
+fight = 4
+wits = 0
+spirit = 0
+metadata/_custom_type_script = "uid://c06efxbhxb5nc"

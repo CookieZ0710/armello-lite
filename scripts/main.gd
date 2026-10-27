@@ -5,6 +5,7 @@ const DEFAULT_HERO = preload("res://data/characters/default_hero.tres")
 
 const NPC = preload("res://scenes/NPC.tscn")
 const BANE_DATA = preload("res://data/characters/placeholder_bane.tres")
+const GUARD_DATA = preload("res://data/characters/royal_guard.tres")
 
 const HEX_TILE = preload("res://scenes/HexTile.tscn")
 const GRASS_DATA = preload("res://data/tiles/grass.tres")
@@ -23,8 +24,10 @@ var player								# player
 var player_coordinates = Vector2i(2, 2) # spawn point
 var hex_tiles = {}						# our map container
 var bane
+var guard
 
 @onready var turn_manager = $TurnManager
+@onready var turn_order_bar:HBoxContainer = $CanvasLayer/TurnOrderBar
 		
 
 func _ready() -> void:
@@ -40,13 +43,13 @@ func _ready() -> void:
 	player_coordinates = offset_to_axial(2, 2)
 	create_player()		# add player
 	spawn_bane()
+	spawn_guard()
 	
 	turn_manager.turn_changed.connect(_on_turn_changed)
 	turn_manager.phase_changed.connect(_on_phase_changed)
 	
-	var actors: Array[Node] = [player, bane]
-	
-	turn_manager.setup(actors)
+	turn_manager.start_queue()
+	update_turn_order_ui()
 
 
 # take normal coord into logical use
@@ -150,10 +153,13 @@ func create_player():
 	
 	add_child(player)
 	player.position = hex_tiles[player_coordinates].position
+	
+	turn_manager.register_actor(player)
 
 func spawn_bane() -> void:
 	bane = NPC.instantiate()
 	bane.character_data = BANE_DATA
+	bane.active_phase("Night")
 
 	# Temporary spawn location, using the same
 	# offset coordinates as map generation.
@@ -166,6 +172,29 @@ func spawn_bane() -> void:
 
 	add_child(bane)
 	bane.position = hex_tiles[spawn_coordinates].position
+	
+	turn_manager.register_actor(bane)
+
+func spawn_guard() -> void:
+	guard = NPC.instantiate()
+	guard.character_data = GUARD_DATA
+	guard.active_phase("Day")
+
+	# Temporary spawn location, using the same
+	# offset coordinates as map generation.
+	var spawn_coordinates = offset_to_axial(6, 3)
+
+	if not hex_tiles.has(spawn_coordinates):
+		push_warning("Guard spawn tile does not exist!")
+		guard.free()
+		guard = null
+		return
+	guard.coordinates = spawn_coordinates
+
+	add_child(guard)
+	guard.position = hex_tiles[spawn_coordinates].position
+	
+	turn_manager.register_actor(guard)
 
 
 func move_player(new_coordinates):
@@ -187,16 +216,29 @@ func move_player(new_coordinates):
 	
 	player.change_health(tile.tile_data.health_change)
 
-#func setup_turn_queue() -> void:
-	#turn_queue.clear()
-	#
-	#if player != null:
-		#turn_queue.append(player)
-	#if bane != null:
-		#turn_queue.append(bane)
-		#
-	#current_turn_index = 0
-	#start_current_turn()
+func update_turn_order_ui() -> void:
+	for child in turn_order_bar.get_children():
+		child.queue_free()
+	
+	for i in range(turn_manager.turn_queue.size()):
+		var actor= turn_manager.turn_queue[i]
+		var square = ColorRect.new()
+		
+		square.custom_minimum_size = Vector2(40, 40)
+		square.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		
+		if actor == player:
+			square.color = Color(0.2, 0.45, 0.95)
+		else:
+			square.color = Color(0.85, 0.2, 0.2)
+		
+		if i < turn_manager.current_turn_index:
+			square.modulate = Color(0.35, 0.35, 0.35, 0.7)
+			
+		if actor == turn_manager.current_actor:
+			square.color = Color(0.3, 0.8, 1.0)
+		
+		turn_order_bar.add_child(square)
 
 func _on_turn_changed(actor: Node) -> void:
 	if actor == player:
@@ -204,6 +246,8 @@ func _on_turn_changed(actor: Node) -> void:
 	elif actor == bane:
 		print("=== Bane's Turn ===")
 		print("Bane cant do shit so pass")
+	
+	update_turn_order_ui()
 
 
 # check if tile can move
@@ -227,3 +271,5 @@ func _on_phase_changed(night: bool) -> void:
 		print("Night has fallen!")
 	else:
 		print("Day has begun!")
+	
+	update_turn_order_ui()

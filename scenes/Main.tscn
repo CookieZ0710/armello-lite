@@ -9,8 +9,16 @@ script = ExtResource("1_elqb8")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=257339680]
 
 [node name="EndTurnButton" type="Button" parent="CanvasLayer" unique_id=1729141878]
-offset_right = 120.0
-offset_bottom = 40.0
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
 text = "End Turn"
 
 [node name="NightOverlay" type="ColorRect" parent="CanvasLayer" unique_id=396320373]
@@ -22,6 +30,15 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0.0627451, 0.08235294, 0.16862746, 0.39215687)
+
+[node name="TurnOrderBar" type="HBoxContainer" parent="CanvasLayer" unique_id=1316951332]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+alignment = 1
 
 [node name="TurnManager" type="Node" parent="." unique_id=1295381014]
 script = ExtResource("2_rvslj")

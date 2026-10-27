@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_bnr2e")
+character_name = "Bane"
 fight = 4
 body = 4
 wits = 0
