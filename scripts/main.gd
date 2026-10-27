@@ -24,8 +24,6 @@ var player_coordinates = Vector2i(2, 2) # spawn point
 var hex_tiles = {}						# our map container
 var bane
 
-var actors: Array[Node] = [player, bane]
-
 @onready var turn_manager = $TurnManager
 		
 
@@ -45,6 +43,9 @@ func _ready() -> void:
 	
 	turn_manager.turn_changed.connect(_on_turn_changed)
 	turn_manager.phase_changed.connect(_on_phase_changed)
+	
+	var actors: Array[Node] = [player, bane]
+	
 	turn_manager.setup(actors)
 
 

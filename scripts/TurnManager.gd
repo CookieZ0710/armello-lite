@@ -9,6 +9,10 @@ var current_actor: Node = null
 var is_night: bool = false	
 
 func setup(queue: Array[Node]) -> void:
+	print("=== TurnManager Setup ===")
+	print("Received queue: ", queue)
+	print("Queue size: ", queue.size())
+	
 	turn_queue = queue
 	current_turn_index = 0
 	is_night = false
@@ -18,11 +22,21 @@ func setup(queue: Array[Node]) -> void:
 
 
 func start_current_turn() -> void:
+	#print("=== Starting Turn ===")
+	#print("Queue size: ", turn_queue.size())
+	#print("Current index: ", current_turn_index)
+
 	if turn_queue.is_empty():
+		#push_error("Turn queue is empty!")
 		current_actor = null
 		return
 	
 	current_actor = turn_queue[current_turn_index]
+	#print("Current actor: ", current_actor)	
+#
+	#if current_actor == null:
+		#push_error("Current actor is null inside the turn queue!")
+		#return
 	
 	if current_actor.has_method("reset_ap"):
 		current_actor.reset_ap()
