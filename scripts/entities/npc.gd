@@ -2,13 +2,15 @@ extends Area2D
 
 @export var character_data: CharacterData
 @export var radius: float = 20.0
+@export var npc_color: Color = Color(0.7, 0.2, 0.25)
 @export_enum("Both", "Day", "Night")
+var active_phase: String = "Night"
 
 var current_health: int
 var max_health: int
 var fight: int
 var coordinates: Vector2i = Vector2i.ZERO
-var active_phase: String = "Night"
+
 
 
 func _ready() -> void:
@@ -19,7 +21,7 @@ func _ready() -> void:
 		points.append(Vector2(cos(angle), sin (angle)) * radius)
 		
 	$Polygon2D.polygon = points
-	$Polygon2D.color = Color(0.7, 0.2, 0.25)
+	$Polygon2D.color = npc_color
 	
 	initialize_character()
 	

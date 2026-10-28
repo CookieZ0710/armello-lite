@@ -47,6 +47,7 @@ func _ready() -> void:
 	
 	turn_manager.turn_changed.connect(_on_turn_changed)
 	turn_manager.phase_changed.connect(_on_phase_changed)
+	turn_manager.queue_changed.connect(update_turn_order_ui)
 	
 	turn_manager.start_queue()
 	update_turn_order_ui()
@@ -159,7 +160,8 @@ func create_player():
 func spawn_bane() -> void:
 	bane = NPC.instantiate()
 	bane.character_data = BANE_DATA
-	bane.active_phase("Night")
+	bane.active_phase = "Night"
+	bane.npc_color = Color(0.478, 0.152, 0.595, 1.0)
 
 	# Temporary spawn location, using the same
 	# offset coordinates as map generation.
@@ -178,7 +180,8 @@ func spawn_bane() -> void:
 func spawn_guard() -> void:
 	guard = NPC.instantiate()
 	guard.character_data = GUARD_DATA
-	guard.active_phase("Day")
+	guard.active_phase = "Day"
+	guard.npc_color = Color(0.864, 0.71, 0.0, 1.0)
 
 	# Temporary spawn location, using the same
 	# offset coordinates as map generation.
@@ -229,14 +232,17 @@ func update_turn_order_ui() -> void:
 		
 		if actor == player:
 			square.color = Color(0.2, 0.45, 0.95)
-		else:
-			square.color = Color(0.85, 0.2, 0.2)
+		elif actor == bane:
+			square.color = Color(0.694, 0.312, 0.84, 1.0)
+		elif actor == guard:
+			square.color = Color(0.864, 0.71, 0.0, 1.0)
 		
-		if i < turn_manager.current_turn_index:
+		if turn_manager.has_finished_turn(actor):
 			square.modulate = Color(0.35, 0.35, 0.35, 0.7)
 			
-		if actor == turn_manager.current_actor:
-			square.color = Color(0.3, 0.8, 1.0)
+		#elif actor == turn_manager.current_actor:
+			#square.modulate = Color(1.0, 1.0, 1.0, 1.0)
+			#square.color = square.color.lightened(0.35)
 		
 		turn_order_bar.add_child(square)
 
@@ -246,6 +252,9 @@ func _on_turn_changed(actor: Node) -> void:
 	elif actor == bane:
 		print("=== Bane's Turn ===")
 		print("Bane cant do shit so pass")
+	elif actor == guard:
+		print("=== Guard's Turn ===")
+		print("Guard cant do shit so pass")
 	
 	update_turn_order_ui()
 

@@ -22,8 +22,8 @@ func register_actor(actor: Node) -> void:
 	
 	all_actors.append(actor)
 	
-	if queue_started:
-		rebuild_turn_queue()
+	#if queue_started:
+		#rebuild_turn_queue()
 
 	queue_changed.emit()
 
@@ -31,7 +31,7 @@ func start_queue() -> void:
 	completed_actors.clear()
 	current_turn_index = 0
 	is_night = false
-	queue_started = true
+	#queue_started = true
 	
 	rebuild_turn_queue()
 	
