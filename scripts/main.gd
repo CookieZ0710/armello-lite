@@ -42,8 +42,15 @@ func _ready() -> void:
 	
 	player_coordinates = offset_to_axial(2, 2)
 	create_player()		# add player
-	spawn_bane()
-	spawn_guard()
+	#spawn_bane()
+	#spawn_guard()
+	
+	var castle_spawn = get_random_type(CASTLE_DATA)
+	spawn_guard(castle_spawn)
+	
+	for i in range(2): 
+		var random_spawn = get_random_tile()
+		spawn_guard(random_spawn)
 	
 	turn_manager.turn_changed.connect(_on_turn_changed)
 	turn_manager.phase_changed.connect(_on_phase_changed)
@@ -55,6 +62,7 @@ func _ready() -> void:
 
 # take normal coord into logical use
 func offset_to_axial(col: int, row: int) -> Vector2i:
+	@warning_ignore("integer_division")
 	var q = col - (row - (row & 1)) / 2
 	var r = row
 	return Vector2i(q, r)
@@ -146,6 +154,62 @@ func get_neighbors(coordinates: Vector2i) -> Array[Vector2i]:
 		
 	return neighbors
 
+func get_occupied_coordinates() -> Array[Vector2i]:
+	var occupied: Array[Vector2i] = [player_coordinates]
+	
+	for actor in turn_manager.all_actors:
+		if not is_instance_valid(actor):
+			continue
+		
+		if actor.has_method("get") and actor.get("coordinates") != null:
+			var actor_coordinates: Vector2i = actor.coordinates
+		
+			if not occupied.has(actor_coordinates):
+				occupied.append(actor_coordinates)
+	return occupied
+
+func get_random_type(required_tile_data) -> Vector2i:
+	var candidates: Array[Vector2i] = []
+	var occupied = get_occupied_coordinates()
+	
+	for coordinates in hex_tiles:
+		var tile = hex_tiles[coordinates]
+	
+		if occupied.has(coordinates):
+			continue
+			
+		if tile.tile_data != required_tile_data:
+			continue
+		
+		candidates.append(coordinates)
+		
+	if candidates.is_empty():
+		push_warning("No available tiles of the requested type!")
+		return Vector2i(999999, 999999)
+	
+	return candidates.pick_random()
+
+func get_random_tile() -> Vector2i:
+	var candidates: Array[Vector2i] = []
+	var occupied = get_occupied_coordinates()
+	
+	for coordinates in hex_tiles:
+		var tile = hex_tiles[coordinates]
+	
+		if occupied.has(coordinates):
+			continue
+		
+		if tile.tile_data == CASTLE_DATA:
+			continue
+		
+		candidates.append(coordinates)
+	
+	if candidates.is_empty():
+		push_warning("No valid non-Castle tiles!")
+		return Vector2i(999999, 999999)
+
+	return candidates.pick_random()
+
 
 func create_player(): 
 	player = PLAYER.instantiate()
@@ -157,47 +221,50 @@ func create_player():
 	
 	turn_manager.register_actor(player)
 
-func spawn_bane() -> void:
-	bane = NPC.instantiate()
-	bane.character_data = BANE_DATA
-	bane.active_phase = "Night"
-	bane.npc_color = Color(0.478, 0.152, 0.595, 1.0)
+#func spawn_bane() -> void:
+	#bane = NPC.instantiate()
+	#bane.character_data = BANE_DATA
+	#bane.active_phase = "Night"
+	#bane.npc_color = Color(0.478, 0.152, 0.595, 1.0)
+#
+	## Temporary spawn location, using the same
+	## offset coordinates as map generation.
+	#var spawn_coordinates = offset_to_axial(4, 3)
+#
+	#if not hex_tiles.has(spawn_coordinates):
+		#push_warning("Bane spawn tile does not exist!")
+		#bane.free()
+		#return
+#
+	#add_child(bane)
+	#bane.position = hex_tiles[spawn_coordinates].position
+	#
+	#turn_manager.register_actor(bane)
 
-	# Temporary spawn location, using the same
-	# offset coordinates as map generation.
-	var spawn_coordinates = offset_to_axial(4, 3)
 
-	if not hex_tiles.has(spawn_coordinates):
-		push_warning("Bane spawn tile does not exist!")
-		bane.free()
-		return
-
-	add_child(bane)
-	bane.position = hex_tiles[spawn_coordinates].position
+func spawn_bane(spawn_coordinates: Vector2i) -> void:
+	var new_bane = NPC.instantiate()
+	new_bane.character_data = BANE_DATA
+	new_bane.active_phase = "Night"
+	new_bane.npc_color = Color(0.478, 0.152, 0.595, 1.0)
 	
-	turn_manager.register_actor(bane)
-
-func spawn_guard() -> void:
-	guard = NPC.instantiate()
-	guard.character_data = GUARD_DATA
-	guard.active_phase = "Day"
-	guard.npc_color = Color(0.864, 0.71, 0.0, 1.0)
-
-	# Temporary spawn location, using the same
-	# offset coordinates as map generation.
-	var spawn_coordinates = offset_to_axial(6, 3)
-
-	if not hex_tiles.has(spawn_coordinates):
-		push_warning("Guard spawn tile does not exist!")
-		guard.free()
-		guard = null
-		return
-	guard.coordinates = spawn_coordinates
-
-	add_child(guard)
-	guard.position = hex_tiles[spawn_coordinates].position
+	add_child(new_bane)
+	new_bane.position = hex_tiles[spawn_coordinates].position
 	
-	turn_manager.register_actor(guard)
+	turn_manager.register_actor(new_bane)
+
+
+func spawn_guard(spawn_coordinates: Vector2i) -> void:
+	var new_guard = NPC.instantiate()
+	new_guard.character_data = GUARD_DATA
+	new_guard.active_phase = "Day"
+	new_guard.npc_color = Color(0.864, 0.71, 0.0, 1.0)
+	new_guard.coordinates = spawn_coordinates
+	
+	add_child(new_guard)
+	new_guard.position = hex_tiles[spawn_coordinates].position
+	
+	turn_manager.register_actor(new_guard)
 
 
 func move_player(new_coordinates):
@@ -278,6 +345,9 @@ func _on_phase_changed(night: bool) -> void:
 	
 	if night:
 		print("Night has fallen!")
+		
+		var ruin_spawn = get_random_type(RUINS_DATA)
+		spawn_bane(ruin_spawn)
 	else:
 		print("Day has begun!")
 	
