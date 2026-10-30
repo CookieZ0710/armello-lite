@@ -15,6 +15,8 @@ var mana: int = 0
 var rot: int = 0
 var prestige: int = 0
 
+var turn_priority: int = 1
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var points = PackedVector2Array()

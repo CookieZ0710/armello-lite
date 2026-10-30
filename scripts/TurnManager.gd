@@ -54,6 +54,10 @@ func rebuild_turn_queue() -> void:
 				
 		turn_queue.append(actor)
 	
+	turn_queue.sort_custom(func(a, b):
+		return a.turn_priority < b.turn_priority
+	)
+	
 	current_turn_index = 0
 	queue_changed.emit()
 

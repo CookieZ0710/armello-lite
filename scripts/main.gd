@@ -4,6 +4,7 @@ const PLAYER = preload("res://scenes/Player.tscn")
 const DEFAULT_HERO = preload("res://data/characters/default_hero.tres")
 
 const NPC = preload("res://scenes/NPC.tscn")
+const NPC_SCRIPT = preload("res://scripts/entities/npc.gd")
 const BANE_DATA = preload("res://data/characters/placeholder_bane.tres")
 const GUARD_DATA = preload("res://data/characters/royal_guard.tres")
 
@@ -47,14 +48,14 @@ func _ready() -> void:
 	
 	var castle_spawn = get_random_type(CASTLE_DATA)
 	if castle_spawn.x != 999999:
-		spawn_guard(castle_spawn)
+		spawn_guard(castle_spawn, NPC_SCRIPT.NPCRole.CASTLE_GUARD)
 	
 	
 	for i in range(2): 
 		var random_spawn = get_random_tile()
 		if random_spawn.x == 999999:
 			break
-		spawn_guard(random_spawn)
+		spawn_guard(random_spawn, NPC_SCRIPT.NPCRole.ROAMING_GUARD)
 	
 	turn_manager.turn_changed.connect(_on_turn_changed)
 	turn_manager.phase_changed.connect(_on_phase_changed)
@@ -259,6 +260,7 @@ func spawn_bane(spawn_coordinates: Vector2i) -> void:
 	new_bane.character_data = BANE_DATA
 	new_bane.active_phase = "Night"
 	new_bane.npc_color = Color(0.478, 0.152, 0.595, 1.0)
+	new_bane.npc_role = NPC_SCRIPT.NPCRole.BANE
 	new_bane.coordinates = spawn_coordinates
 	
 	add_child(new_bane)
@@ -267,7 +269,7 @@ func spawn_bane(spawn_coordinates: Vector2i) -> void:
 	turn_manager.register_actor(new_bane)
 
 
-func spawn_guard(spawn_coordinates: Vector2i) -> void:
+func spawn_guard(spawn_coordinates: Vector2i, role: NPC_SCRIPT.NPCRole) -> void:
 	if not hex_tiles.has(spawn_coordinates):
 		push_warning("Invalid Guard spawn coordinate!")
 		return
@@ -280,6 +282,7 @@ func spawn_guard(spawn_coordinates: Vector2i) -> void:
 	new_guard.character_data = GUARD_DATA
 	new_guard.active_phase = "Day"
 	new_guard.npc_color = Color(0.864, 0.71, 0.0, 1.0)
+	new_guard.npc_role = role
 	new_guard.coordinates = spawn_coordinates
 	
 	add_child(new_guard)
@@ -337,11 +340,14 @@ func update_turn_order_ui() -> void:
 func _on_turn_changed(actor: Node) -> void:
 	if actor == player:
 		print("=== Player's Turn ===")
-	elif actor == bane:
+	elif actor.npc_role == NPC_SCRIPT.NPCRole.BANE:
 		print("=== Bane's Turn ===")
 		print("Bane cant do shit so pass")
-	elif actor == guard:
-		print("=== Guard's Turn ===")
+	elif actor.npc_role == NPC_SCRIPT.NPCRole.CASTLE_GUARD:
+		print("=== Castle Guard's Turn ===")
+		print("Guard cant do shit so pass")
+	elif actor.npc_role == NPC_SCRIPT.NPCRole.ROAMING_GUARD:
+		print("=== Roaming Guard's Turn ===")
 		print("Guard cant do shit so pass")
 	
 	update_turn_order_ui()

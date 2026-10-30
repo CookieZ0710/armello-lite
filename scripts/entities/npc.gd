@@ -6,11 +6,14 @@ extends Area2D
 @export_enum("Both", "Day", "Night")
 var active_phase: String = "Night"
 
+enum NPCRole {ROAMING_GUARD, CASTLE_GUARD, BANE}
+@export var npc_role: NPCRole = NPCRole.ROAMING_GUARD
+
 var current_health: int
 var max_health: int
 var fight: int
 var coordinates: Vector2i = Vector2i.ZERO
-
+var turn_priority: int = 0
 
 
 func _ready() -> void:
@@ -48,3 +51,7 @@ func can_act_during_phase(is_night: bool) -> bool:
 		return active_phase == "Night"
 		
 	return active_phase == "Day"
+
+
+#func take_turn(game: Node) -> void:
+	#print("NPC taking turn: ", NPCRole.keys()[npc_role])
