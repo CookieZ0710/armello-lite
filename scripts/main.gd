@@ -46,10 +46,14 @@ func _ready() -> void:
 	#spawn_guard()
 	
 	var castle_spawn = get_random_type(CASTLE_DATA)
-	spawn_guard(castle_spawn)
+	if castle_spawn.x != 999999:
+		spawn_guard(castle_spawn)
+	
 	
 	for i in range(2): 
 		var random_spawn = get_random_tile()
+		if random_spawn.x == 999999:
+			break
 		spawn_guard(random_spawn)
 	
 	turn_manager.turn_changed.connect(_on_turn_changed)
@@ -243,10 +247,19 @@ func create_player():
 
 
 func spawn_bane(spawn_coordinates: Vector2i) -> void:
+	if not hex_tiles.has(spawn_coordinates):
+		push_warning("Invalid Bane spawn coordinate!")
+		return
+
+	if get_occupied_coordinates().has(spawn_coordinates):
+		push_warning("Bane spawn tile is occupied!")
+		return
+		
 	var new_bane = NPC.instantiate()
 	new_bane.character_data = BANE_DATA
 	new_bane.active_phase = "Night"
 	new_bane.npc_color = Color(0.478, 0.152, 0.595, 1.0)
+	new_bane.coordinates = spawn_coordinates
 	
 	add_child(new_bane)
 	new_bane.position = hex_tiles[spawn_coordinates].position
@@ -255,6 +268,14 @@ func spawn_bane(spawn_coordinates: Vector2i) -> void:
 
 
 func spawn_guard(spawn_coordinates: Vector2i) -> void:
+	if not hex_tiles.has(spawn_coordinates):
+		push_warning("Invalid Guard spawn coordinate!")
+		return
+
+	if get_occupied_coordinates().has(spawn_coordinates):
+		push_warning("Guard spawn tile is occupied!")
+		return
+		
 	var new_guard = NPC.instantiate()
 	new_guard.character_data = GUARD_DATA
 	new_guard.active_phase = "Day"
@@ -347,7 +368,8 @@ func _on_phase_changed(night: bool) -> void:
 		print("Night has fallen!")
 		
 		var ruin_spawn = get_random_type(RUINS_DATA)
-		spawn_bane(ruin_spawn)
+		if ruin_spawn.x != 999999:
+			spawn_bane(ruin_spawn)
 	else:
 		print("Day has begun!")
 	
