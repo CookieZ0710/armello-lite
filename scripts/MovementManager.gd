@@ -1,16 +1,16 @@
 extends Node
 
-func move_entity(entity: Node, destination: Vector2i, game: Node) -> bool:
-	if not game.hex_tiles.has(destination):
+func move_entity(entity: Node, destination: Vector2i, map_manager: Node) -> bool:
+	if not map_manager.hex_tiles.has(destination):
 		return false
 		
-	if destination not in game.get_neighbors(entity.coordinates):
+	if destination not in map_manager.get_neighbors(entity.coordinates):
 		return false
 		
-	if game.get_occupied_coordinates(entity).has(destination):
+	if map_manager.get_occupied_coordinates(entity).has(destination):
 		return false
 		
-	var tile = game.hex_tiles[destination]
+	var tile = map_manager.hex_tiles[destination]
 	var movement_cost = tile.tile_data.movement_cost
 	
 	if entity.has_method("spend_ap"):
