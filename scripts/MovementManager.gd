@@ -1,6 +1,32 @@
 extends Node
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func move_entity(entity: Node, destination: Vector2i, game: Node) -> bool:
+	if not game.hex_tiles.has(destination):
+		return false
+		
+	if destination not in game.get_neighbors(entity.coordinates):
+		return false
+		
+	if game.get_occupied_coordinates(entity).has(destination):
+		return false
+		
+	var tile = game.hex_tiles[destination]
+	var movement_cost = tile.tile_data.movement_cost
+	
+	if entity.has_method("spend_ap"):
+		if not entity.spend_ap(movement_cost):
+			return false
+	
+	entity.coordinates = destination
+	entity.position = tile.position
+	
+	if entity.has_method("change_health"):
+		entity.change_health(tile.tile_data.health_change)
+		
+	print("Moved onto new Tile")
+	print("Type: ", tile.tile_data.display_name)
+	print("Movement Cost: ", movement_cost)
+	print("Health Change: ", tile.tile_data.health_change)
+	print("Coordinates: ", destination)
+	
+	return true

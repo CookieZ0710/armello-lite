@@ -27,6 +27,7 @@ var hex_tiles = {}						# our map container
 var bane
 var guard
 
+@onready var movement_manager = $MovementManager
 @onready var turn_manager = $TurnManager
 @onready var turn_order_bar:HBoxContainer = $CanvasLayer/TurnOrderBar
 		
@@ -159,18 +160,22 @@ func get_neighbors(coordinates: Vector2i) -> Array[Vector2i]:
 		
 	return neighbors
 
-func get_occupied_coordinates() -> Array[Vector2i]:
-	var occupied: Array[Vector2i] = [player_coordinates]
+func get_occupied_coordinates(exclude_actor: Node = null) -> Array[Vector2i]:
+	var occupied: Array[Vector2i] = []
+	
+	if is_instance_valid(player) and player != exclude_actor:
+		occupied.append(player.coordinates)
 	
 	for actor in turn_manager.all_actors:
 		if not is_instance_valid(actor):
 			continue
-		
-		if actor.has_method("get") and actor.get("coordinates") != null:
-			var actor_coordinates: Vector2i = actor.coordinates
-		
-			if not occupied.has(actor_coordinates):
-				occupied.append(actor_coordinates)
+			
+		if actor == player or actor == exclude_actor:
+			continue
+			
+		if actor.coordinates not in occupied:
+			occupied.append(actor.coordinates)
+
 	return occupied
 
 func get_random_type(required_tile_data) -> Vector2i:
@@ -291,24 +296,17 @@ func spawn_guard(spawn_coordinates: Vector2i, role: NPC_SCRIPT.NPCRole) -> void:
 	turn_manager.register_actor(new_guard)
 
 
-func move_player(new_coordinates):
-	var tile = hex_tiles[new_coordinates]
-	var movement_cost = tile.tile_data.movement_cost
+func move_player(new_coordinates: Vector2i) -> void:
+	var moved = movement_manager.move_entity(
+		player,
+		new_coordinates,
+		self
+	)
 	
-	if not player.spend_ap(movement_cost):
+	if not moved:
 		return
-		
-	player_coordinates = new_coordinates
-	player.coordinates = new_coordinates
-	player.position = hex_tiles[new_coordinates].position
-		
-	print("Moved onto new Tile")
-	print("Type: ",tile.tile_data.display_name)
-	print("Movement Cost: ",tile.tile_data.movement_cost)
-	print("Health Change: ",tile.tile_data.health_change)
-	print("Coordinates: ",new_coordinates)
 	
-	player.change_health(tile.tile_data.health_change)
+	player_coordinates = player.coordinates
 
 func update_turn_order_ui() -> void:
 	for child in turn_order_bar.get_children():
@@ -354,15 +352,12 @@ func _on_turn_changed(actor: Node) -> void:
 
 
 # check if tile can move
-func _on_tile_clicked(clicked_coordinates):
+func _on_tile_clicked(clicked_coordinates: Vector2i) -> void:
 	if turn_manager.current_actor != player:
 		print("not ur turn yet bitch")
 		return
 	
-	var neighbors = get_neighbors(player_coordinates)
-	
-	if clicked_coordinates in neighbors:
-		move_player(clicked_coordinates)
+	move_player(clicked_coordinates)
 
 func _on_end_turn_button_pressed() -> void:
 	turn_manager.end_turn()

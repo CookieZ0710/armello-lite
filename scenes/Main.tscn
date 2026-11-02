@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dpe0c3c3i0q8l" path="res://scripts/main.gd" id="1_elqb8"]
 [ext_resource type="Script" uid="uid://cy5pj2odmj3rg" path="res://scripts/TurnManager.gd" id="2_rvslj"]
+[ext_resource type="Script" uid="uid://ypxilumo3ic7" path="res://scripts/MovementManager.gd" id="3_0bbpv"]
 
 [node name="Main" type="Node2D" unique_id=1295409125]
 script = ExtResource("1_elqb8")
@@ -42,3 +43,6 @@ alignment = 1
 
 [node name="TurnManager" type="Node" parent="." unique_id=1295381014]
 script = ExtResource("2_rvslj")
+
+[node name="MovementManager" type="Node" parent="." unique_id=920897725]
+script = ExtResource("3_0bbpv")
