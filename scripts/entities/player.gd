@@ -19,6 +19,7 @@ var turn_priority: int = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	z_index = 10
 	var points = PackedVector2Array()
 	
 	for i in range(20):

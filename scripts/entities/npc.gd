@@ -17,6 +17,7 @@ var turn_priority: int = 0
 
 
 func _ready() -> void:
+	z_index = 10
 	var points = PackedVector2Array()
 	
 	for i in range(20):

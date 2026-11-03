@@ -65,6 +65,7 @@ func create_player():
 	add_child(player)
 	player.position = map_manager.hex_tiles[player_coordinates].position
 	
+	#map_manager.player = player
 	turn_manager.register_actor(player)
 
 
