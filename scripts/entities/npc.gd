@@ -14,6 +14,7 @@ var max_health: int
 var fight: int
 var coordinates: Vector2i = Vector2i.ZERO
 var turn_priority: int = 0
+var is_moving: bool = false
 
 
 func _ready() -> void:

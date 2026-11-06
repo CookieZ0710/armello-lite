@@ -16,6 +16,7 @@ var rot: int = 0
 var prestige: int = 0
 
 var turn_priority: int = 1
+var is_moving: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

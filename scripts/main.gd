@@ -114,7 +114,7 @@ func spawn_guard(spawn_coordinates: Vector2i, role: NPC_SCRIPT.NPCRole) -> void:
 
 
 func move_player(new_coordinates: Vector2i) -> void:
-	var moved = movement_manager.move_entity(
+	var moved = await movement_manager.move_entity(
 		player,
 		new_coordinates,
 		map_manager
