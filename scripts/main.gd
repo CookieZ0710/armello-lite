@@ -65,7 +65,7 @@ func create_player():
 	add_child(player)
 	player.position = map_manager.hex_tiles[player_coordinates].position
 	
-	#map_manager.player = player
+	map_manager.player = player
 	turn_manager.register_actor(player)
 
 
@@ -157,13 +157,16 @@ func _on_turn_changed(actor: Node) -> void:
 		print("=== Player's Turn ===")
 	elif actor.npc_role == NPC_SCRIPT.NPCRole.BANE:
 		print("=== Bane's Turn ===")
-		print("Bane cant do shit so pass")
+		await actor.take_turn(self)
+		turn_manager.end_turn()
 	elif actor.npc_role == NPC_SCRIPT.NPCRole.CASTLE_GUARD:
 		print("=== Castle Guard's Turn ===")
-		print("Guard cant do shit so pass")
+		await actor.take_turn(self)
+		turn_manager.end_turn()
 	elif actor.npc_role == NPC_SCRIPT.NPCRole.ROAMING_GUARD:
 		print("=== Roaming Guard's Turn ===")
-		print("Guard cant do shit so pass")
+		await actor.take_turn(self)
+		turn_manager.end_turn()
 	
 	update_turn_order_ui()
 
@@ -177,6 +180,9 @@ func _on_tile_clicked(clicked_coordinates: Vector2i) -> void:
 	move_player(clicked_coordinates)
 
 func _on_end_turn_button_pressed() -> void:
+	if turn_manager.current_actor != player:
+		return
+
 	turn_manager.end_turn()
 
 func _on_phase_changed(night: bool) -> void:

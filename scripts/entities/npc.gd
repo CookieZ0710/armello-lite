@@ -55,5 +55,46 @@ func can_act_during_phase(is_night: bool) -> bool:
 	return active_phase == "Day"
 
 
-#func take_turn(game: Node) -> void:
-	#print("NPC taking turn: ", NPCRole.keys()[npc_role])
+func take_turn(game: Node) -> void:
+	print("NPC taking turn: ", NPCRole.keys()[npc_role])
+	
+	match npc_role:
+		NPCRole.ROAMING_GUARD:
+			await roam(game)
+			
+		NPCRole.CASTLE_GUARD:
+			print("Castle Guard no behavior yet")
+			
+		NPCRole.BANE:
+			print("Bane no behavior yet")
+
+func roam(game: Node) -> void:
+	var possible_moves: Array[Vector2i] = []
+	var neighbors = game.map_manager.get_neighbors(coordinates)
+	var occupied = game.map_manager.get_occupied_coordinates(self)
+	
+	for destination in neighbors:
+		if not game.map_manager.hex_tiles.has(destination):
+			continue
+		
+		if destination in occupied:
+			continue
+		
+		possible_moves.append(destination)
+	
+	if possible_moves.is_empty():
+		print("no moves bruh")
+		return
+	
+	var destination = possible_moves.pick_random()
+	
+	print("Roaming Guard moving to: ", destination)
+	
+	var moved = await game.movement_manager.move_entity(
+		self,
+		destination,
+		game.map_manager
+	)
+	
+	if not moved:
+		print("Roaming Guard no move to do")
