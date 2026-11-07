@@ -179,5 +179,52 @@ func get_random_tile() -> Vector2i:
 
 	return candidates.pick_random()
 
+func get_path_to_nearest_tile_type(start: Vector2i, required_tile_data, exclude_actor: Node = null) -> Array[Vector2i]:
+	
+	if not hex_tiles.has(start):
+		push_warning("Pathfinding started from an invalid coordinate: ", start)
+		return []
+	
+	var queue: Array[Vector2i] = [start]
+	var visited: Dictionary = {start: true}
+	var came_from: Dictionary = {}
+	
+	var occupied = get_occupied_coordinates(exclude_actor)
+	
+	while not queue.is_empty():
+		var current = queue.pop_front()
+		if not hex_tiles.has(current):
+			continue
+			
+		var current_tile = hex_tiles[current]
+		
+		if current_tile.tile_data == required_tile_data and current != start:
+			var path: Array[Vector2i] = [current]
+			var step = current
+			
+			while step != start:
+				step = came_from[step]
+				path.append(step)
+			
+			path.reverse()
+			return path
+		
+		for neighbor in get_neighbors(current):
+			if not hex_tiles.has(current):
+				continue
+			
+			if visited.has(neighbor):
+				continue
+				
+			if neighbor in occupied:
+				continue
+			
+			visited[neighbor] = true
+			came_from[neighbor] = current
+			queue.append(neighbor)
+		
+	return []
+	
+
 func _on_tile_clicked(coordinates: Vector2i) -> void:
 	tile_clicked.emit(coordinates)

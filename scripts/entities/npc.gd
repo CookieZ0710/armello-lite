@@ -66,7 +66,7 @@ func take_turn(game: Node) -> void:
 			print("Castle Guard no behavior yet")
 			
 		NPCRole.BANE:
-			print("Bane no behavior yet")
+			await hunt_settlement(game)
 
 func roam(game: Node) -> void:
 	var possible_moves: Array[Vector2i] = []
@@ -98,3 +98,27 @@ func roam(game: Node) -> void:
 	
 	if not moved:
 		print("Roaming Guard no move to do")
+	
+	
+func hunt_settlement(game: Node) -> void:
+		var path = game.map_manager.get_path_to_nearest_tile_type(
+			coordinates,
+			game.map_manager.SETTLEMENT_DATA,
+			self
+		)
+		
+		if path.size() < 2:
+			print("no settlement found")
+			return
+		
+		var destination = path[1]
+		print("Bane moving to settlement: ", destination)
+		
+		var moved = await game.movement_manager.move_entity(
+			self,
+			destination,
+			game.map_manager
+		)
+		
+		if not moved:
+			print("Bane cant move")
