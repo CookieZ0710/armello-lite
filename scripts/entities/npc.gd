@@ -63,7 +63,7 @@ func take_turn(game: Node) -> void:
 			await roam(game)
 			
 		NPCRole.CASTLE_GUARD:
-			print("Castle Guard no behavior yet")
+			await castle_roam(game)
 			
 		NPCRole.BANE:
 			await hunt_settlement(game)
@@ -99,6 +99,42 @@ func roam(game: Node) -> void:
 	if not moved:
 		print("Roaming Guard no move to do")
 	
+
+func castle_roam(game: Node) -> void:
+	var possible_moves: Array[Vector2i] = []
+	var neighbors = game.map_manager.get_neighbors(coordinates)
+	var occupied = game.map_manager.get_occupied_coordinates(self)
+	
+	for destination in neighbors:
+		if not game.map_manager.hex_tiles.has(destination):
+			continue
+			
+		if destination in occupied:
+			continue
+		
+		var tile = game.map_manager.hex_tiles[destination]
+		
+		if tile.tile_data != game.map_manager.CASTLE_DATA:
+			continue
+			
+		possible_moves.append(destination)
+	
+	if possible_moves.is_empty():
+		print("No castle tiles to move to")
+		return
+	
+	var destination = possible_moves.pick_random()
+	print("Castle Guard patrolling to: ", destination)
+	
+	var moved = await game.movement_manager.move_entity(
+		self,
+		destination,
+		game.map_manager
+	)
+	
+	if not moved:
+		print("Castle guard cant move")
+
 	
 func hunt_settlement(game: Node) -> void:
 		var path = game.map_manager.get_path_to_nearest_tile_type(
