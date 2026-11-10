@@ -210,13 +210,17 @@ func get_path_to_nearest_tile_type(start: Vector2i, required_tile_data, exclude_
 			return path
 		
 		for neighbor in get_neighbors(current):
-			if not hex_tiles.has(current):
+			if not hex_tiles.has(neighbor):
 				continue
 			
 			if visited.has(neighbor):
 				continue
 				
 			if neighbor in occupied:
+				continue
+			
+			var neighbor_tile = hex_tiles[neighbor]
+			if neighbor_tile.tile_data == CASTLE_DATA:
 				continue
 			
 			visited[neighbor] = true

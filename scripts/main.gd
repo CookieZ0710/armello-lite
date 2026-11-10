@@ -19,12 +19,15 @@ var guard
 @onready var turn_manager = $TurnManager
 @onready var turn_order_bar:HBoxContainer = $CanvasLayer/TurnOrderBar
 		
+const MAX_BANES: int = 3
 
 func _ready() -> void:
 	randomize()
 	
 	map_manager.generate_map()		# make hex tiles
 	map_manager.center_map()		# check and move to mid of tiles
+	
+	map_manager.turn_manager = turn_manager
 	
 	map_manager.tile_clicked.connect(_on_tile_clicked)
 	
@@ -89,6 +92,19 @@ func spawn_bane(spawn_coordinates: Vector2i) -> void:
 	new_bane.position = map_manager.hex_tiles[spawn_coordinates].position
 	
 	turn_manager.register_actor(new_bane)
+
+func get_active_bane_count() -> int:
+	var count = 0
+
+	for actor in turn_manager.all_actors:
+		if not is_instance_valid(actor):
+			continue
+
+		if actor.has_method("can_act_during_phase"):
+			if actor.npc_role == NPC_SCRIPT.NPCRole.BANE:
+				count += 1
+
+	return count
 
 
 func spawn_guard(spawn_coordinates: Vector2i, role: NPC_SCRIPT.NPCRole) -> void:
@@ -191,9 +207,15 @@ func _on_phase_changed(night: bool) -> void:
 	if night:
 		print("Night has fallen!")
 		
-		var ruin_spawn = map_manager.get_random_type(map_manager.RUINS_DATA)
-		if ruin_spawn.x != 999999:
-			spawn_bane(ruin_spawn)
+		var bane_count = get_active_bane_count()
+		
+		if bane_count >= MAX_BANES:
+			print("too many banes")
+		else:
+			var ruin_spawn = map_manager.get_random_type(map_manager.RUINS_DATA)
+			if ruin_spawn.x != 999999:
+				spawn_bane(ruin_spawn)
+		
 	else:
 		print("Day has begun!")
 	
