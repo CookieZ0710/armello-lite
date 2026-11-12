@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://y3a1kwoxmodf"]
+
+[ext_resource type="Script" uid="uid://cgw4yafslfrfw" path="res://scripts/entities/king.gd" id="1_5h1p4"]
+
+[node name="King" type="Node2D" unique_id=654776711]
+script = ExtResource("1_5h1p4")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1173319647]

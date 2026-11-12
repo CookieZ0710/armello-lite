@@ -101,6 +101,24 @@ func axial_to_pixel(axial: Vector2i, radius: float) -> Vector2:
 	)
 	
 
+func get_castle_center() -> Vector2:
+	var total_position = Vector2.ZERO
+	var castle_count = 0
+	
+	for coordinates in hex_tiles:
+		var tile = hex_tiles[coordinates]
+		
+		if tile.tile_data == CASTLE_DATA:
+			total_position += tile.global_position
+			castle_count += 1
+		
+	if castle_count != 4:
+		push_error("wtf wrong with ur castle bruh" + str(castle_count))
+		return Vector2.ZERO
+	
+	return total_position/castle_count
+
+
 # find logical coord of nearby tiles
 func get_neighbors(coordinates: Vector2i) -> Array[Vector2i]:
 	var directions = [

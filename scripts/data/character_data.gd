@@ -8,3 +8,4 @@ extends Resource
 @export var body: int = 5
 @export var wits: int = 5
 @export var spirit: int = 5
+@export var rot: int = 0

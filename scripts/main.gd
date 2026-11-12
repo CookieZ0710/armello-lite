@@ -8,11 +8,15 @@ const NPC_SCRIPT = preload("res://scripts/entities/npc.gd")
 const BANE_DATA = preload("res://data/characters/placeholder_bane.tres")
 const GUARD_DATA = preload("res://data/characters/royal_guard.tres")
 
+const KING = preload("res://scenes/King.tscn")
+const KING_DATA = preload("res://data/characters/king.tres")
+
 
 var player								# player
 var player_coordinates = Vector2i(2, 2) # spawn point
 var bane
 var guard
+var king: Node2D
 
 @onready var map_manager = $MapManager
 @onready var movement_manager = $MovementManager
@@ -26,6 +30,8 @@ func _ready() -> void:
 	
 	map_manager.generate_map()		# make hex tiles
 	map_manager.center_map()		# check and move to mid of tiles
+	
+	spawn_king()
 	
 	map_manager.turn_manager = turn_manager
 	
@@ -70,6 +76,16 @@ func create_player():
 	
 	map_manager.player = player
 	turn_manager.register_actor(player)
+	
+
+func spawn_king() -> void:
+	king = KING.instantiate()
+	king.character_data = KING_DATA
+	
+	add_child(king)
+	
+	king.global_position = map_manager.get_castle_center()
+
 
 
 func spawn_bane(spawn_coordinates: Vector2i) -> void:
@@ -207,6 +223,8 @@ func _on_phase_changed(night: bool) -> void:
 	if night:
 		print("Night has fallen!")
 		
+		king.on_night_started()
+		
 		var bane_count = get_active_bane_count()
 		
 		if bane_count >= MAX_BANES:
@@ -218,5 +236,7 @@ func _on_phase_changed(night: bool) -> void:
 		
 	else:
 		print("Day has begun!")
+		
+		king.on_day_started()
 	
 	update_turn_order_ui()
