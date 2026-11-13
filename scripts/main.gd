@@ -22,6 +22,7 @@ var king: Node2D
 @onready var movement_manager = $MovementManager
 @onready var turn_manager = $TurnManager
 @onready var turn_order_bar:HBoxContainer = $CanvasLayer/TurnOrderBar
+@onready var player_stats_panel = $CanvasLayer/PlayerStatsPanel
 		
 const MAX_BANES: int = 3
 
@@ -77,6 +78,9 @@ func create_player():
 	map_manager.player = player
 	turn_manager.register_actor(player)
 	
+	player_stats_panel.player = player
+	player_stats_panel.update_stats()
+	
 
 func spawn_king() -> void:
 	king = KING.instantiate()
@@ -85,7 +89,6 @@ func spawn_king() -> void:
 	add_child(king)
 	
 	king.global_position = map_manager.get_castle_center()
-
 
 
 func spawn_bane(spawn_coordinates: Vector2i) -> void:
@@ -156,6 +159,7 @@ func move_player(new_coordinates: Vector2i) -> void:
 		return
 	
 	player_coordinates = player.coordinates
+	player_stats_panel.update_stats()
 
 func update_turn_order_ui() -> void:
 	for child in turn_order_bar.get_children():
@@ -187,6 +191,7 @@ func update_turn_order_ui() -> void:
 func _on_turn_changed(actor: Node) -> void:
 	if actor == player:
 		print("=== Player's Turn ===")
+		player_stats_panel.update_stats()
 	elif actor.npc_role == NPC_SCRIPT.NPCRole.BANE:
 		print("=== Bane's Turn ===")
 		await actor.take_turn(self)

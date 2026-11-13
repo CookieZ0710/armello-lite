@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://t58ya1xqoeyj"]
+
+[ext_resource type="Script" uid="uid://bb6d6bw13a1d0" path="res://scripts/player_stats_panel.gd" id="1_cbxdn"]
+
+[node name="PlayerStatsPanel" type="PanelContainer" unique_id=1711073869]
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = -165.0
+offset_right = 270.0
+offset_bottom = -15.0
+grow_vertical = 0
+script = ExtResource("1_cbxdn")
+
+[node name="MainLayout" type="VBoxContainer" parent="." unique_id=2112664213]
+layout_mode = 2
+
+[node name="CharacterInfo" type="HBoxContainer" parent="MainLayout" unique_id=2139039314]
+layout_mode = 2
+
+[node name="Portrait" type="ColorRect" parent="MainLayout/CharacterInfo" unique_id=937807405]
+layout_mode = 2
+
+[node name="Stats" type="VBoxContainer" parent="MainLayout/CharacterInfo" unique_id=507718313]
+layout_mode = 2
+
+[node name="BodyLabel" type="Label" parent="MainLayout/CharacterInfo/Stats" unique_id=533484345]
+layout_mode = 2
+
+[node name="FightLabel" type="Label" parent="MainLayout/CharacterInfo/Stats" unique_id=344809659]
+layout_mode = 2
+
+[node name="WitsLabel" type="Label" parent="MainLayout/CharacterInfo/Stats" unique_id=1139411656]
+layout_mode = 2
+
+[node name="SpiritLabel" type="Label" parent="MainLayout/CharacterInfo/Stats" unique_id=2097374935]
+layout_mode = 2
+
+[node name="RotLabel" type="Label" parent="MainLayout/CharacterInfo/Stats" unique_id=858497359]
+layout_mode = 2
+
+[node name="HealthBar" type="ProgressBar" parent="MainLayout" unique_id=796662446]
+layout_mode = 2
+show_percentage = false
