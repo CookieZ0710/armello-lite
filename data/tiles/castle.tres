@@ -7,5 +7,5 @@ script = ExtResource("1_qepge")
 id = "castle"
 display_name = "castle_tile"
 movement_cost = 3
-tile_color = Color(0.15, 0.35, 1, 1)
+tile_color = Color(0.14901961, 0.34901962, 1, 1)
 metadata/_custom_type_script = "uid://f4r48xdc3vgm"

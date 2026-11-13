@@ -1,8 +1,9 @@
 extends Node2D
 
 @export var character_data: CharacterData
-@export var radius: float = 24.0
-@export var king_color: Color = Color(0.9, 0.7, 0.15)
+@export var radius: float = 40.0
+@export var king_color: Color = Color(Color(0.149, 0.349, 1.0))
+@export var outline_color: Color = Color(0.9, 0.7, 0.15)
 
 var fight: int
 var max_body: int
@@ -32,16 +33,40 @@ func initialise_character() -> void:
 	
 func create_visual() -> void:
 	z_index = 10
+	
 	var points = PackedVector2Array()
 	
-	for i in range(24):
-		var angle = deg_to_rad(i * 360.0 / 24.0)
-		points.append(
-			Vector2(cos(angle), sin(angle)) * radius
-		)
+	for i in range(6):
+		var angle = deg_to_rad(60 * i + 30)
+		var point = Vector2(
+			cos(angle),
+			sin(angle)
+		) * radius
+		
+		points.append(point)
 	
-	$Polygon2D.polygon = points
-	$Polygon2D.color = king_color
+	$VirtualHex.polygon = points
+	$VirtualHex.color = king_color
+	
+	var border_points = points.duplicate()
+	border_points.append(points[0])
+	
+	$HexOutline.points = border_points
+	$HexOutline.width = 3.0
+	$HexOutline.default_color = outline_color
+	
+	var crown_points = PackedVector2Array([
+		Vector2(-16, -7),
+		Vector2(-16, 5),
+		Vector2(16, 5),
+		Vector2(16, -7),
+		Vector2(7, 0),
+		Vector2(0, -15),
+		Vector2(-7, 0)
+	])
+	
+	$Crown.polygon = crown_points
+	$Crown.color = outline_color
 	
 	
 func on_day_started() -> void:
