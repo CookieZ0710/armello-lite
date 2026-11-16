@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cqdx0h7tttfwc"]
+
+[ext_resource type="Script" uid="uid://geh28gq2laxl" path="res://scripts/resource_bar.gd" id="1_0wly4"]
+
+[node name="ResourceBar" type="PanelContainer" unique_id=936057417]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -75.0
+offset_right = -15.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("1_0wly4")
+
+[node name="MainLayout" type="HBoxContainer" parent="." unique_id=1839224407]
+layout_mode = 2
+
+[node name="APLabel" type="Label" parent="MainLayout" unique_id=978904256]
+layout_mode = 2

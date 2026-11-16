@@ -23,6 +23,7 @@ var king: Node2D
 @onready var turn_manager = $TurnManager
 @onready var turn_order_bar:HBoxContainer = $CanvasLayer/TurnOrderBar
 @onready var player_stats_panel = $CanvasLayer/PlayerStatsPanel
+@onready var resource_bar = $CanvasLayer/ResourceBar
 		
 const MAX_BANES: int = 3
 
@@ -80,6 +81,9 @@ func create_player():
 	
 	player_stats_panel.player = player
 	player_stats_panel.update_stats()
+	
+	resource_bar.player = player
+	resource_bar.update_resource()
 	
 
 func spawn_king() -> void:
@@ -160,6 +164,8 @@ func move_player(new_coordinates: Vector2i) -> void:
 	
 	player_coordinates = player.coordinates
 	player_stats_panel.update_stats()
+	resource_bar.update_resource()
+	
 
 func update_turn_order_ui() -> void:
 	for child in turn_order_bar.get_children():
@@ -192,14 +198,18 @@ func _on_turn_changed(actor: Node) -> void:
 	if actor == player:
 		print("=== Player's Turn ===")
 		player_stats_panel.update_stats()
+		resource_bar.update_resource()
+		
 	elif actor.npc_role == NPC_SCRIPT.NPCRole.BANE:
 		print("=== Bane's Turn ===")
 		await actor.take_turn(self)
 		turn_manager.end_turn()
+		
 	elif actor.npc_role == NPC_SCRIPT.NPCRole.CASTLE_GUARD:
 		print("=== Castle Guard's Turn ===")
 		await actor.take_turn(self)
 		turn_manager.end_turn()
+		
 	elif actor.npc_role == NPC_SCRIPT.NPCRole.ROAMING_GUARD:
 		print("=== Roaming Guard's Turn ===")
 		await actor.take_turn(self)

@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cy5pj2odmj3rg" path="res://scripts/TurnManager.gd" id="2_rvslj"]
 [ext_resource type="PackedScene" uid="uid://t58ya1xqoeyj" path="res://scenes/UI/PlayerStatsPanel.tscn" id="2_vcsgt"]
 [ext_resource type="Script" uid="uid://ypxilumo3ic7" path="res://scripts/MovementManager.gd" id="3_0bbpv"]
+[ext_resource type="PackedScene" uid="uid://cqdx0h7tttfwc" path="res://scenes/UI/ResourceBar.tscn" id="3_c01mt"]
 [ext_resource type="Script" uid="uid://d4hhjrrpeo0vl" path="res://scripts/MapManager.gd" id="4_rarhs"]
 
 [node name="Main" type="Node2D" unique_id=1295409125]
@@ -44,6 +45,8 @@ size_flags_vertical = 4
 alignment = 1
 
 [node name="PlayerStatsPanel" parent="CanvasLayer" unique_id=1711073869 instance=ExtResource("2_vcsgt")]
+
+[node name="ResourceBar" parent="CanvasLayer" unique_id=936057417 instance=ExtResource("3_c01mt")]
 
 [node name="TurnManager" type="Node" parent="." unique_id=1295381014]
 script = ExtResource("2_rvslj")
