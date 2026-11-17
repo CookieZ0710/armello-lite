@@ -21,6 +21,7 @@ var king: Node2D
 @onready var map_manager = $MapManager
 @onready var movement_manager = $MovementManager
 @onready var turn_manager = $TurnManager
+@onready var combat_manager = $CombatManager
 @onready var turn_order_bar:HBoxContainer = $CanvasLayer/TurnOrderBar
 @onready var player_stats_panel = $CanvasLayer/PlayerStatsPanel
 @onready var resource_bar = $CanvasLayer/ResourceBar
@@ -223,10 +224,44 @@ func _on_tile_clicked(clicked_coordinates: Vector2i) -> void:
 	if turn_manager.current_actor != player:
 		print("not ur turn yet bitch")
 		return
+		
+	if combat_manager.combat_active:
+		return
+	
+	if player.is_moving:
+		return
+	
+	var target = get_npc_at(clicked_coordinates)
+	
+	if target != null:
+		if clicked_coordinates not in map_manager.get_neighbors(player.coordinates):
+			print("Target not close")
+			return
+		
+		combat_manager.begin_combat(player,target)
+		return
 	
 	move_player(clicked_coordinates)
+	
+
+func get_npc_at(coordinates: Vector2i) -> Node:
+	for actor in turn_manager.all_actors:
+		if not is_instance_valid(actor):
+			continue
+		
+		if actor == player:
+			continue
+		
+		if actor.coordinates == coordinates:
+			return actor
+		
+	return null
+	
 
 func _on_end_turn_button_pressed() -> void:
+	if combat_manager.combat_active:
+		return
+		
 	if turn_manager.current_actor != player:
 		return
 

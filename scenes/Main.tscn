@@ -5,7 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://t58ya1xqoeyj" path="res://scenes/UI/PlayerStatsPanel.tscn" id="2_vcsgt"]
 [ext_resource type="Script" uid="uid://ypxilumo3ic7" path="res://scripts/MovementManager.gd" id="3_0bbpv"]
 [ext_resource type="PackedScene" uid="uid://cqdx0h7tttfwc" path="res://scenes/UI/ResourceBar.tscn" id="3_c01mt"]
+[ext_resource type="PackedScene" uid="uid://c8y0vb23c17cm" path="res://scenes/UI/CombatScreen.tscn" id="4_jlsqs"]
 [ext_resource type="Script" uid="uid://d4hhjrrpeo0vl" path="res://scripts/MapManager.gd" id="4_rarhs"]
+[ext_resource type="Script" uid="uid://cco6x7xtud7hh" path="res://scripts/Combat/CombatManager.gd" id="8_q8u5g"]
 
 [node name="Main" type="Node2D" unique_id=1295409125]
 script = ExtResource("1_elqb8")
@@ -48,6 +50,8 @@ alignment = 1
 
 [node name="ResourceBar" parent="CanvasLayer" unique_id=936057417 instance=ExtResource("3_c01mt")]
 
+[node name="CombatScreen" parent="CanvasLayer" unique_id=1897605025 instance=ExtResource("4_jlsqs")]
+
 [node name="TurnManager" type="Node" parent="." unique_id=1295381014]
 script = ExtResource("2_rvslj")
 
@@ -56,3 +60,6 @@ script = ExtResource("3_0bbpv")
 
 [node name="MapManager" type="Node" parent="." unique_id=1849376620]
 script = ExtResource("4_rarhs")
+
+[node name="CombatManager" type="Node" parent="." unique_id=1326687897]
+script = ExtResource("8_q8u5g")

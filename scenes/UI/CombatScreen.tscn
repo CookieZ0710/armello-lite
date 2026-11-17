@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://c8y0vb23c17cm"]
+
+[ext_resource type="Script" uid="uid://dlqymaqm3t4rb" path="res://scripts/Combat/CombatScreen.gd" id="1_w523m"]
+
+[node name="CombatScreen" type="Control" unique_id=1897605025]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w523m")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1906224148]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainLayout" type="VBoxContainer" parent="Background" unique_id=591122784]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="Background/MainLayout" unique_id=281713322]
+layout_mode = 2
+text = "COMBAT"
+horizontal_alignment = 1
+
+[node name="Participants" type="HBoxContainer" parent="Background/MainLayout" unique_id=1532367618]
+layout_mode = 2
+
+[node name="AttackerPanel" type="PanelContainer" parent="Background/MainLayout/Participants" unique_id=303325851]
+layout_mode = 2
+
+[node name="AttackerName" type="Label" parent="Background/MainLayout/Participants/AttackerPanel" unique_id=1175330356]
+layout_mode = 2
+
+[node name="VSLabel" type="Label" parent="Background/MainLayout/Participants" unique_id=297103871]
+layout_mode = 2
+
+[node name="DefenderPanel" type="PanelContainer" parent="Background/MainLayout/Participants" unique_id=547456380]
+layout_mode = 2
+
+[node name="DefenderName" type="Label" parent="Background/MainLayout/Participants/DefenderPanel" unique_id=1011593282]
+layout_mode = 2
+
+[node name="ReturnButton" type="Button" parent="Background/MainLayout" unique_id=1667673929]
+layout_mode = 2
