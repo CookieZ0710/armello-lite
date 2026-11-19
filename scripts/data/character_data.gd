@@ -9,3 +9,6 @@ extends Resource
 @export var wits: int = 5
 @export var spirit: int = 5
 @export var rot: int = 0
+
+@export_group("Visuals")
+@export var portrait: Texture2D

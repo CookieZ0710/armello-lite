@@ -12,6 +12,7 @@ enum NPCRole {ROAMING_GUARD, CASTLE_GUARD, BANE}
 var current_health: int
 var max_health: int
 var fight: int
+var rot: int = 0
 var coordinates: Vector2i = Vector2i.ZERO
 var turn_priority: int = 0
 var is_moving: bool = false
@@ -38,6 +39,7 @@ func initialize_character() -> void:
 	max_health = character_data.body
 	current_health = max_health
 	fight = character_data.fight
+	rot = character_data.rot
 	
 	print("=== NPC Initialised ===")
 	print("Name: ", character_data.character_name)
