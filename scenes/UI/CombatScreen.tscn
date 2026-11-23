@@ -22,9 +22,12 @@ grow_vertical = 2
 color = Color(0.52, 0.52, 0.52, 1)
 
 [node name="MainLayout" type="VBoxContainer" parent="Background" unique_id=1997013212]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="TopSection" type="HBoxContainer" parent="Background/MainLayout" unique_id=2134441425]
 custom_maximum_size = Vector2(-1, 145)
@@ -59,10 +62,10 @@ layout_mode = 2
 [node name="PortraitSection" type="HBoxContainer" parent="Background/MainLayout" unique_id=1722619704]
 layout_mode = 2
 
-[node name="AttackerPortrait" type="ColorRect" parent="Background/MainLayout/PortraitSection" unique_id=2084896618]
+[node name="AttackerPortrait" type="TextureRect" parent="Background/MainLayout/PortraitSection" unique_id=1765068045]
 layout_mode = 2
 
-[node name="DefenderPortrait" type="ColorRect" parent="Background/MainLayout/PortraitSection" unique_id=1384857511]
+[node name="DefenderPortrait" type="TextureRect" parent="Background/MainLayout/PortraitSection" unique_id=1567323922]
 layout_mode = 2
 
 [node name="BottomSection" type="HBoxContainer" parent="Background/MainLayout" unique_id=383810765]
@@ -92,13 +95,13 @@ layout_mode = 2
 [node name="AttackerBonusDef" type="Label" parent="Background/MainLayout/BottomSection/AttackerStats" unique_id=1979663506]
 layout_mode = 2
 
-[node name="AttackerDice" type="Control" parent="Background/MainLayout/BottomSection" unique_id=370305771]
+[node name="AttackerDice" type="GridContainer" parent="Background/MainLayout/BottomSection" unique_id=827441664]
 layout_mode = 2
 
 [node name="RollButton" type="Button" parent="Background/MainLayout/BottomSection" unique_id=1531651097]
 layout_mode = 2
 
-[node name="DefenderDice" type="Control" parent="Background/MainLayout/BottomSection" unique_id=2013357135]
+[node name="DefenderDice" type="GridContainer" parent="Background/MainLayout/BottomSection" unique_id=1478855978]
 layout_mode = 2
 
 [node name="DefenderStats" type="VBoxContainer" parent="Background/MainLayout/BottomSection" unique_id=815826905]

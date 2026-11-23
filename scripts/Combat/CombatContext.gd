@@ -24,5 +24,5 @@ var defender_total_dice: int
 
 var defender_terrain_bonus: int = 0
 
-var attacker_results: Array[String] = []
-var defender_results: Array[String] = []
+var attacker_results: Array[int] = []
+var defender_results: Array[int] = []

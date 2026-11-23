@@ -113,12 +113,12 @@ func roll_dice() -> void:
 	
 	for i in range(combat_context.attacker_total_dice):
 		combat_context.attacker_results.append(
-			DICE_FACES.pick_random()
+			randi_range(0,5)
 		)
 	
 	for i in range(combat_context.defender_total_dice):
 		combat_context.defender_results.append(
-			DICE_FACES.pick_random()
+			randi_range(0,5)
 		)
 
 	await combat_screen.animate_roll(
@@ -129,6 +129,7 @@ func roll_dice() -> void:
 	print("=== Dice Roll Complete ===")
 	print("Attacker: ", combat_context.attacker_results)
 	print("Defender: ", combat_context.defender_results)
+	
 
 func end_combat() -> void:
 		if not combat_active:
