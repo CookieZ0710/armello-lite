@@ -11,3 +11,121 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w523m")
+
+[node name="Background" type="ColorRect" parent="." unique_id=356766523]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.52, 0.52, 0.52, 1)
+
+[node name="MainLayout" type="VBoxContainer" parent="Background" unique_id=1997013212]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TopSection" type="HBoxContainer" parent="Background/MainLayout" unique_id=2134441425]
+custom_maximum_size = Vector2(-1, 145)
+layout_mode = 2
+
+[node name="AttackerInfo" type="VBoxContainer" parent="Background/MainLayout/TopSection" unique_id=205919953]
+layout_mode = 2
+
+[node name="AttackerName" type="Label" parent="Background/MainLayout/TopSection/AttackerInfo" unique_id=969243639]
+layout_mode = 2
+
+[node name="AttackerHealthbar" type="ProgressBar" parent="Background/MainLayout/TopSection/AttackerInfo" unique_id=660393709]
+layout_mode = 2
+
+[node name="PhaseIndicator" type="Control" parent="Background/MainLayout/TopSection" unique_id=845169962]
+layout_mode = 2
+
+[node name="PhaseIcon" type="TextureRect" parent="Background/MainLayout/TopSection/PhaseIndicator" unique_id=258852060]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DefenderInfo" type="VBoxContainer" parent="Background/MainLayout/TopSection" unique_id=1261424921]
+layout_mode = 2
+
+[node name="DefenderName" type="Label" parent="Background/MainLayout/TopSection/DefenderInfo" unique_id=550906820]
+layout_mode = 2
+
+[node name="DefenderHealthbar" type="ProgressBar" parent="Background/MainLayout/TopSection/DefenderInfo" unique_id=745557088]
+layout_mode = 2
+
+[node name="PortraitSection" type="HBoxContainer" parent="Background/MainLayout" unique_id=1722619704]
+layout_mode = 2
+
+[node name="AttackerPortrait" type="ColorRect" parent="Background/MainLayout/PortraitSection" unique_id=2084896618]
+layout_mode = 2
+
+[node name="DefenderPortrait" type="ColorRect" parent="Background/MainLayout/PortraitSection" unique_id=1384857511]
+layout_mode = 2
+
+[node name="BottomSection" type="HBoxContainer" parent="Background/MainLayout" unique_id=383810765]
+layout_mode = 2
+
+[node name="AttackerStats" type="VBoxContainer" parent="Background/MainLayout/BottomSection" unique_id=519209878]
+layout_mode = 2
+
+[node name="AttackerBody" type="Label" parent="Background/MainLayout/BottomSection/AttackerStats" unique_id=85099059]
+layout_mode = 2
+
+[node name="AttackerFight" type="Label" parent="Background/MainLayout/BottomSection/AttackerStats" unique_id=1106288173]
+layout_mode = 2
+
+[node name="AttackerWits" type="Label" parent="Background/MainLayout/BottomSection/AttackerStats" unique_id=1278619595]
+layout_mode = 2
+
+[node name="AttackerSpirit" type="Label" parent="Background/MainLayout/BottomSection/AttackerStats" unique_id=506995457]
+layout_mode = 2
+
+[node name="AttackerRot" type="Label" parent="Background/MainLayout/BottomSection/AttackerStats" unique_id=1376522357]
+layout_mode = 2
+
+[node name="AttackerBonusDice" type="Label" parent="Background/MainLayout/BottomSection/AttackerStats" unique_id=1681831782]
+layout_mode = 2
+
+[node name="AttackerBonusDef" type="Label" parent="Background/MainLayout/BottomSection/AttackerStats" unique_id=1979663506]
+layout_mode = 2
+
+[node name="AttackerDice" type="Control" parent="Background/MainLayout/BottomSection" unique_id=370305771]
+layout_mode = 2
+
+[node name="RollButton" type="Button" parent="Background/MainLayout/BottomSection" unique_id=1531651097]
+layout_mode = 2
+
+[node name="DefenderDice" type="Control" parent="Background/MainLayout/BottomSection" unique_id=2013357135]
+layout_mode = 2
+
+[node name="DefenderStats" type="VBoxContainer" parent="Background/MainLayout/BottomSection" unique_id=815826905]
+layout_mode = 2
+
+[node name="DefenderBody" type="Label" parent="Background/MainLayout/BottomSection/DefenderStats" unique_id=409094798]
+layout_mode = 2
+
+[node name="DefenderFight" type="Label" parent="Background/MainLayout/BottomSection/DefenderStats" unique_id=1520615782]
+layout_mode = 2
+
+[node name="DefenderWits" type="Label" parent="Background/MainLayout/BottomSection/DefenderStats" unique_id=1731836389]
+layout_mode = 2
+
+[node name="DefenderSpirit" type="Label" parent="Background/MainLayout/BottomSection/DefenderStats" unique_id=2086138458]
+layout_mode = 2
+
+[node name="DefenderRot" type="Label" parent="Background/MainLayout/BottomSection/DefenderStats" unique_id=533552207]
+layout_mode = 2
+
+[node name="DefenderBonusDice" type="Label" parent="Background/MainLayout/BottomSection/DefenderStats" unique_id=1360040672]
+layout_mode = 2
+
+[node name="DefenderBonusDef" type="Label" parent="Background/MainLayout/BottomSection/DefenderStats" unique_id=1978437308]
+layout_mode = 2
+
+[node name="ReturnButton" type="Button" parent="." unique_id=895354334]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
