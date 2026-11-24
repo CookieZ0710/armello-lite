@@ -1,6 +1,12 @@
 [gd_scene format=3 uid="uid://c8y0vb23c17cm"]
 
 [ext_resource type="Script" uid="uid://dlqymaqm3t4rb" path="res://scripts/Combat/CombatScreen.gd" id="1_w523m"]
+[ext_resource type="Texture2D" uid="uid://4s0id1vb31ug" path="res://assets/dice/sword.png" id="2_ccyif"]
+[ext_resource type="Texture2D" uid="uid://cv16tepwe5e0f" path="res://assets/dice/shield.png" id="3_1c0cl"]
+[ext_resource type="Texture2D" uid="uid://c5jbdkawkf21e" path="res://assets/dice/sun.png" id="4_011wl"]
+[ext_resource type="Texture2D" uid="uid://dj7pl2pgajw5p" path="res://assets/dice/moon.png" id="5_vx0vy"]
+[ext_resource type="Texture2D" uid="uid://cjbobhqg8dmnj" path="res://assets/dice/worm.png" id="6_6jakf"]
+[ext_resource type="Texture2D" uid="uid://d32d3orhuxi2u" path="res://assets/dice/wild.png" id="7_m27r8"]
 
 [node name="CombatScreen" type="Control" unique_id=1897605025]
 visible = false
@@ -11,6 +17,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w523m")
+sword_icon = ExtResource("2_ccyif")
+shield_icon = ExtResource("3_1c0cl")
+sun_icon = ExtResource("4_011wl")
+moon_icon = ExtResource("5_vx0vy")
+rot_icon = ExtResource("6_6jakf")
+wild_icon = ExtResource("7_m27r8")
 
 [node name="Background" type="ColorRect" parent="." unique_id=356766523]
 layout_mode = 1
@@ -63,10 +75,16 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="AttackerPortrait" type="TextureRect" parent="Background/MainLayout/PortraitSection" unique_id=1765068045]
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="DefenderPortrait" type="TextureRect" parent="Background/MainLayout/PortraitSection" unique_id=1567323922]
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="BottomSection" type="HBoxContainer" parent="Background/MainLayout" unique_id=383810765]
 layout_mode = 2

@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="CharacterData" format=3 uid="uid://ddjwvlwe0xqxc"]
 
+[ext_resource type="Texture2D" uid="uid://mt8nd2bmtcdf" path="res://assets/portraits/bane.png" id="1_0k871"]
 [ext_resource type="Script" uid="uid://c06efxbhxb5nc" path="res://scripts/data/character_data.gd" id="1_bnr2e"]
 
 [resource]
@@ -9,4 +10,5 @@ fight = 4
 body = 4
 wits = 0
 spirit = 0
+portrait = ExtResource("1_0k871")
 metadata/_custom_type_script = "uid://c06efxbhxb5nc"

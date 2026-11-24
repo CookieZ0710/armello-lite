@@ -121,12 +121,10 @@ func get_character_name(character: Node) -> String:
 		
 func clear_dice_slots() -> void:
 	for slot in attacker_dice_slots:
-		if is_instance_valid(slot):
-			slot.get_parent().queue_free()
+		slot.queue_free()
 	
 	for slot in defender_dice_slots:
-		if is_instance_valid(slot):
-			slot.get_parent().queue_free()
+		slot.queue_free()
 	
 	attacker_dice_slots.clear()
 	defender_dice_slots.clear()
@@ -162,14 +160,14 @@ func get_face_texture(face: int) -> Texture2D:
 
 
 func animate_roll(
-	attacker_result: Array[String], 
-	defender_result: Array[String]
+	attacker_result: Array[int], 
+	defender_result: Array[int]
 ) -> void:
 	var all_slots = attacker_dice_slots + defender_dice_slots
 	
 	for round in range(15):
 		for slot in all_slots:
-			slot.text = get_face_texture(randi_range(0,5))
+			slot.texture = get_face_texture(randi_range(0,5))
 		
 		await get_tree().create_timer(0.07).timeout
 	
