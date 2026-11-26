@@ -55,13 +55,18 @@ layout_mode = 2
 [node name="AttackerHealthbar" type="ProgressBar" parent="Background/MainLayout/TopSection/AttackerInfo" unique_id=660393709]
 layout_mode = 2
 
-[node name="PhaseIndicator" type="Control" parent="Background/MainLayout/TopSection" unique_id=845169962]
+[node name="PhaseIndicator" type="CenterContainer" parent="Background/MainLayout/TopSection" unique_id=1589079366]
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 10)
 
 [node name="PhaseIcon" type="TextureRect" parent="Background/MainLayout/TopSection/PhaseIndicator" unique_id=258852060]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+custom_minimum_size = Vector2(48, 48)
+propagate_maximum_size = true
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="DefenderInfo" type="VBoxContainer" parent="Background/MainLayout/TopSection" unique_id=1261424921]
 layout_mode = 2
@@ -73,6 +78,7 @@ horizontal_alignment = 2
 
 [node name="DefenderHealthbar" type="ProgressBar" parent="Background/MainLayout/TopSection/DefenderInfo" unique_id=745557088]
 layout_mode = 2
+fill_mode = 1
 
 [node name="PortraitSection" type="HBoxContainer" parent="Background/MainLayout" unique_id=1722619704]
 layout_mode = 2

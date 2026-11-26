@@ -84,6 +84,12 @@ func show_encounter(context: CombatContext, is_night: bool) -> void:
 	defender_health.max_value = context.defender_body
 	defender_health.value = context.defender_current_health
 	
+	#PHASE INDICATOR
+	if is_night:
+		phase_icon.texture = moon_icon
+	else:
+		phase_icon.texture = sun_icon
+	
 	#PORTRAITS
 	attacker_portrait.texture = context.attacker.character_data.portrait
 	defender_portrait.texture = context.defender.character_data.portrait
@@ -122,11 +128,11 @@ func get_character_name(character: Node) -> String:
 	
 		
 func clear_dice_slots() -> void:
-	for slot in attacker_dice_slots:
-		slot.queue_free()
+	for child in attacker_dice_grid.get_children():
+		child.queue_free()
 	
-	for slot in defender_dice_slots:
-		slot.queue_free()
+	for child in defender_dice_grid.get_children():
+		child.queue_free()
 	
 	attacker_dice_slots.clear()
 	defender_dice_slots.clear()
