@@ -172,10 +172,10 @@ func animate_roll(
 		await get_tree().create_timer(0.07).timeout
 	
 	for i in range(attacker_result.size()):
-		attacker_dice_slots[i].text = attacker_result[i]
+		attacker_dice_slots[i].texture = get_face_texture(attacker_result[i])
 	
 	for i in range(defender_result.size()):
-		defender_dice_slots[i].text = defender_result[i]
+		defender_dice_slots[i].texture = get_face_texture(defender_result[i])
 
 
 func _on_roll_pressed() -> void:

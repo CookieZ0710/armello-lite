@@ -47,6 +47,7 @@ layout_mode = 2
 
 [node name="AttackerInfo" type="VBoxContainer" parent="Background/MainLayout/TopSection" unique_id=205919953]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="AttackerName" type="Label" parent="Background/MainLayout/TopSection/AttackerInfo" unique_id=969243639]
 layout_mode = 2
@@ -73,21 +74,25 @@ layout_mode = 2
 
 [node name="PortraitSection" type="HBoxContainer" parent="Background/MainLayout" unique_id=1722619704]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="AttackerPortrait" type="TextureRect" parent="Background/MainLayout/PortraitSection" unique_id=1765068045]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(220, 220)
 layout_mode = 2
+size_flags_horizontal = 3
 expand_mode = 1
 stretch_mode = 5
 
 [node name="DefenderPortrait" type="TextureRect" parent="Background/MainLayout/PortraitSection" unique_id=1567323922]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(220, 220)
 layout_mode = 2
+size_flags_horizontal = 3
 expand_mode = 1
 stretch_mode = 5
 
 [node name="BottomSection" type="HBoxContainer" parent="Background/MainLayout" unique_id=383810765]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="AttackerStats" type="VBoxContainer" parent="Background/MainLayout/BottomSection" unique_id=519209878]
 layout_mode = 2
