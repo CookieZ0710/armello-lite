@@ -66,6 +66,8 @@ var defender_dice_slots: Array[TextureRect] = []
 
 
 func _ready() -> void:
+	style_roll_button()
+	
 	roll_button.pressed.connect(_on_roll_pressed)
 	return_button.pressed.connect(func(): return_requested.emit())
 	
@@ -131,14 +133,35 @@ func clear_dice_slots() -> void:
 	
 func create_dice_slots(grid: GridContainer, amount: int, storage: Array[TextureRect]) -> void:
 	for i in range(amount):
-		var slot = TextureRect.new()
+		var frame := PanelContainer.new()
+		frame.custom_maximum_size = Vector2(64, 64)
 		
-		slot.custom_minimum_size = Vector2(48, 48)
-		slot.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		slot.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color(0.422, 0.422, 0.48, 1.0)
+		style.border_color = Color(0.65, 0.65, 0.7)
+		style.set_border_width_all(2)
+		style.set_corner_radius_all(8)
 		
-		grid.add_child(slot)
-		storage.append(slot)
+		frame.add_theme_stylebox_override("panel", style)
+		
+		var icon := TextureRect.new()
+		icon.custom_minimum_size = Vector2(48, 48)
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		
+		frame.add_child(icon)
+		grid.add_child(frame)
+		storage.append(icon)
+		
+		
+		#var slot = TextureRect.new()
+		#
+		#slot.custom_minimum_size = Vector2(48, 48)
+		#slot.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		#slot.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		#
+		#grid.add_child(slot)
+		#storage.append(slot)
 
 
 func get_face_texture(face: int) -> Texture2D:
@@ -176,6 +199,27 @@ func animate_roll(
 	
 	for i in range(defender_result.size()):
 		defender_dice_slots[i].texture = get_face_texture(defender_result[i])
+
+
+func style_roll_button() -> void:
+	roll_button.text = "ROLL"
+	roll_button.custom_minimum_size = Vector2(76, 76)
+	
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color(0.18, 0.18, 0.22)
+	normal.border_color = Color(0.75, 0.75, 0.8)
+	normal.set_border_width_all(2)
+	normal.set_corner_radius_all(38)
+	
+	var hover := normal.duplicate()
+	hover.bg_color = Color(0.30, 0.30, 0.38)
+	
+	var pressed := normal.duplicate()
+	pressed.bg_color = Color(0.10, 0.10, 0.14)
+	
+	roll_button.add_theme_stylebox_override("normal", normal)
+	roll_button.add_theme_stylebox_override("hover", hover)
+	roll_button.add_theme_stylebox_override("pressed", pressed)
 
 
 func _on_roll_pressed() -> void:
